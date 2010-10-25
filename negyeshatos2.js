@@ -5,8 +5,7 @@ var g_arrAddressList = [],
 ShowAddress = FillAddress = HereIam = kamu;
 
 var FillRoute = function() {
-	//console.log(g_Route.m_arrMains[0].m_arrSubs;
-  $.each(g_Route.m_arrMains[0].m_arrSubs, function(i,e) {
+  jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(i,e) {
     if (e.m_arrBkvLines.length > 0) {
       console.log(e.m_strStopFrom +"tól", e.m_arrBkvLines[0].m_strName, e.m_arrBkvLines[0].m_strVType.toLowerCase() + "val", e.m_arrBkvLines[0].m_iStops + " megálló", e.m_strStopTo + "ig");
     }
@@ -15,14 +14,25 @@ var FillRoute = function() {
 
 }
 
+var geokod = function(string) {
+  var koder = new google.maps.Geocoder();
+  koder.geocode({
+    "address": string,
+    "language": "hu",
+    "region": "hu",
+    "bounds": new google.maps.LatLngBounds(new google.maps.LatLng(47.3515010,18.9251690), new google.maps.LatLng(47.6133620,19.3339160))
+  }, function(c) {
+    console.log(c[0].geometry.location.c, c[0].geometry.location.b);
+  });
+};
+
 var tervezz = function(x1, y1, x2, y2) {
   // az x a 19 körüli, az y a 47 körüli érték
   var eov1 = ll2eov(x1, y1);
   var eov2 = ll2eov(x2, y2);
-  $.ajax({
+  jQuery.ajax({
         type: "GET",
         url: "http://bkv.utvonalterv.hu/NoTile.ashx?",
-        scriptCharset: "iso-8859-2",
         dataType: "script",
         data: {
           "Command": "Traffic",
