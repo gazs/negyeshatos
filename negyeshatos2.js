@@ -1,3 +1,25 @@
+jQuery(document).ready(function(){
+ if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+      function(position) {
+        console.log(position.coords);
+      },
+      function() {
+        console.log("már megint nem sikerült, mivammá");
+        jQuery("#from").data("latlong", "123,431");
+      },
+      { timeout: 1000 }
+    );
+ }
+
+   $("input").blur(function(){
+     if ($(this).val() != "") {
+       geokod($(this).val(), this)
+     }
+   })
+
+})
+
 // parasztjson lol
 var g_arrAddressList = [],
     kamu = function() { return true };
@@ -14,15 +36,18 @@ var FillRoute = function() {
 
 }
 
-var geokod = function(string) {
+var geokod = function(string, obj) {
   var koder = new google.maps.Geocoder();
   koder.geocode({
     "address": string,
     "language": "hu",
     "region": "hu",
-    "bounds": new google.maps.LatLngBounds(new google.maps.LatLng(47.3515010,18.9251690), new google.maps.LatLng(47.6133620,19.3339160))
+    "bounds": new google.maps.LatLngBounds(
+      new google.maps.LatLng(47.3515010,18.9251690), 
+      new google.maps.LatLng(47.6133620,19.3339160)) // ezek biza pest határai Szergej és Larry szerint
   }, function(c) {
-    console.log(c[0].geometry.location.c, c[0].geometry.location.b);
+    //console.log(c[0].geometry.location.c, c[0].geometry.location.b);
+      jQuery(obj).data("lat", c[0].geometry.location.b).data("lon", c[0].geometry.location.c)
   });
 };
 
