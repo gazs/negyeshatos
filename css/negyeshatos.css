@@ -15,6 +15,7 @@ input {
 .stop {
   font-weight:bold;
 }
+/* bkv-től 'örökölt' */
 .bkvJarat {
   text-decoration:none;
     font-weight: bold;
@@ -91,4 +92,49 @@ input {
 }
 .routeinfo {
   text-align:center
+}
+
+.inplacecuccos {
+  border-bottom: 1px dotted black;
+  cursor:hand;
+  font-size:12pt;
+  font-weight:normal;
+  font-family:sans;
+  }
+  #from.inplacecuccos:hover {
+    background-color:yellow;
+  }
+
+
+
+    .fsvenue {
+      width:100%;
+      border-bottom: 1px solid #aaa;
+      padding:4px;
+    }
+    .fsvenue:hover {
+      background-color:#eee;
+    }
+    .fsvenuelogo {
+      float:left;
+      width:40px;
+      height:40px;
+      text-align:center;
+      line-height:40px;
+      margin:4px;
+    }
+    .fsvenuename {
+      float:left;
+      font-weight:bold;
+    }
+    .fsfriendshere img {
+      width: 20px;
+      height:20px;
+    }
+#to {
+margin-top:20px;
+}
+.selected {
+  background-color:#333;
+  color:white;
 }

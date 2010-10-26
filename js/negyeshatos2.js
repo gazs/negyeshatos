@@ -33,6 +33,34 @@ jQuery(document).ready(function(){
         })
       })
 
+   $.getJSON("/merrevagytok?", function(json) {
+      console.log(json);    
+      $.each(json, function(i,e) {
+        var venue = $("<div>").addClass("fsvenue");
+        var friendshere = $("<div>").addClass("fsfriendshere");
+        var venuename = $("<div>").addClass("fsvenuename");
+        venue.html($("<img>").attr("src", e.icon))
+        venuename.html(e.name)
+                 .data("lat", e.geolat)
+                 .data("lon", e.geolong);
+        $.each(e.here, function(j,f) {
+          $("<img>").attr("src", f.photo)
+                    .attr("title", f.lastname + " " + f.firstname)
+                    .appendTo($(friendshere))})
+        $(friendshere).appendTo(venuename);
+        venuename.appendTo(venue);
+        venue.click(function() {
+          if($(".fsvenue:visible").length == 1) {
+            $(this).toggleClass("selected");
+            $(".fsvenue").fadeIn();
+          } else {
+            $(".fsvenue").fadeOut();
+            $(this).toggleClass("selected").fadeIn();
+          }
+        });
+        venue.append("<div style='clear:both'>").appendTo($("#foursquare"));
+      })
+   });
 
    $("form").submit(function(){
      var koordinatak = [];
