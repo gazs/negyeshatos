@@ -82,12 +82,25 @@ jQuery(document).ready(function(){
    })
 })
 
-var utvonalszakasz = function(jarmu, jarmufajta, menetrendlink, felszallsz, megallo, leszallsz, menetido) {
+var utvonalszakasz = function(fel_v_at,jarmu, jarmufajta, menetrendlink, felszallsz, megallo, leszallsz, menetido) {
   var menetrendlink = $("<a>").text(jarmu)
                               .addClass(jarmufajta)
                               .attr("href", menetrendlink)
   var utvonal = $("<div>").addClass("utvonal")
-                          .html("Felszállsz " + felszallsz + " megállónál egy "+ jarmu + "-ös "+ jarmufajta  + "-ra, majd "+ megallo + " megállót mész " + leszallsz  + "-ig ("+ parseInt(menetido,10) + "p)")
+                          .html([
+                              (fel_v_at ? "Felszállsz" : "Átszállsz"),
+                              felszallsz,
+                              " megállónál egy",
+                              jarmu,
+                              "-ös",
+                              jarmufajta,
+                              "-ra, majd",
+                              megallo,
+                              "megállót mész",
+                              leszallsz,
+                              "-ig (",
+                              parseInt(menetido,10),
+                              "p)"].join(" "))
  return utvonal 
 }
 
@@ -104,18 +117,17 @@ var FillRoute = function() {
   // notationnek egy teljesen beteg mutációjával: arr meg str
   // oké, de ki hallott már 1.26666667 értékű integerről?
 $("#bkv").html("");
+felszallsz = true;
   jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(a,b) {
         if (b.m_arrBkvLines.length > 0) {
           //..azaz nem sétálunk
-          //jarmu, jarmufajta, menetrendlink, felszallsz, megallo, leszallsz, menetido
-          //$("<div>").text(b.m_strStopFrom).appendTo($("body"));
           jQuery.each(b.m_arrBkvLines, function(c,d) {
-            $("#bkv").append(utvonalszakasz(d.m_strName, d.m_strVType, d.m_strLink, b.m_strStopFrom, d.m_iStops, b.m_strStopTo, b.m_iTravelMinutes))
-              //$("<a>").text(d.m_strName)
-                      //.addClass(d.m_strClass)
-                      //.attr("href", d.m_strLink)
-                      //.appendTo($("body"));
+            console.log(felszallsz);
+            $("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, d.m_strVType, d.m_strLink, b.m_strStopFrom, d.m_iStops, b.m_strStopTo, b.m_iTravelMinutes))
           });
+        } else {
+        // azaz sétálunk
+          $("#bkv").append("<div class='utvonal'>menj gyalog "+ b.m_iLength +" métert a " + b.m_strName + "-en</div>")
         } 
       });
 
