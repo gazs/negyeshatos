@@ -6,7 +6,6 @@ jQuery(document).ready(function(){
       },
       function() {
         console.log("már megint nem sikerült, mivammá");
-        jQuery("#from").data("latlong", "123,431");
       },
       { timeout: 1000 }
     );
@@ -14,10 +13,19 @@ jQuery(document).ready(function(){
 
    $("input").blur(function(){
      if ($(this).val() != "") {
-       geokod($(this).val(), this)
+       geokod($(this).val(), this);
      }
    })
 
+   $("form").submit(function(){
+     var koordinatak = [];
+     $("input").each(function(i,r) {
+       koordinatak.push($(this).data("lon"));
+       koordinatak.push($(this).data("lat")); 
+     })
+     tervezz.apply(this, koordinatak);
+     return false
+   })
 })
 
 // parasztjson lol
@@ -27,13 +35,30 @@ var g_arrAddressList = [],
 ShowAddress = FillAddress = HereIam = kamu;
 
 var FillRoute = function() {
-  jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(i,e) {
-    if (e.m_arrBkvLines.length > 0) {
-      console.log(e.m_strStopFrom +"tól", e.m_arrBkvLines[0].m_strName, e.m_arrBkvLines[0].m_strVType.toLowerCase() + "val", e.m_arrBkvLines[0].m_iStops + " megálló", e.m_strStopTo + "ig");
-    }
-  });
-  console.log(g_Route.m_iTravelMinutes + " perc utazási idő");
+  // Álljunk meg egy szóra, hogy mennyire undorító ez már. a 
+  // fejlesztők nem hogy a JSON-ról, az object notatinról se
+  // hallottak, plusz az egész meg van szórva a hungarian
+  // notationnek egy teljesen beteg mutációjával: arr meg str
+  // oké, de ki hallott már 1.26666667 értékű integerről?
 
+  jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(a,b) {
+        if (b.m_arrBkvLines.length > 0) {
+          //..azaz nem sétálunk
+          $("<div>").text(b.m_strStopFrom).appendTo($("body"));
+          jQuery.each(b.m_arrBkvLines, function(c,d) {
+              $("<a>").text(d.m_strName)
+                      .addClass(d.m_strClass)
+                      .attr("href", d.m_strLink)
+                      .appendTo($("body"));
+          });
+        } 
+      });
+
+
+}
+
+var toldalekolj = function(string, rag) {
+  return string + "-" + rag; // FIXME
 }
 
 var geokod = function(string, obj) {
@@ -46,7 +71,6 @@ var geokod = function(string, obj) {
       new google.maps.LatLng(47.3515010,18.9251690), 
       new google.maps.LatLng(47.6133620,19.3339160)) // ezek biza pest határai Szergej és Larry szerint
   }, function(c) {
-    //console.log(c[0].geometry.location.c, c[0].geometry.location.b);
       jQuery(obj).data("lat", c[0].geometry.location.b).data("lon", c[0].geometry.location.c)
   });
 };
