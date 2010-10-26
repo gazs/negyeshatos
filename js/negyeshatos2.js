@@ -118,18 +118,37 @@ var FillRoute = function() {
   // oké, de ki hallott már 1.26666667 értékű integerről?
 $("#bkv").html("");
 felszallsz = true;
-  jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(a,b) {
-        if (b.m_arrBkvLines.length > 0) {
-          //..azaz nem sétálunk
-          jQuery.each(b.m_arrBkvLines, function(c,d) {
-            console.log(felszallsz);
-            $("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, d.m_strVType, d.m_strLink, b.m_strStopFrom, d.m_iStops, b.m_strStopTo, b.m_iTravelMinutes))
-          });
-        } else {
-        // azaz sétálunk
-          $("#bkv").append("<div class='utvonal'>menj gyalog "+ b.m_iLength +" métert a " + b.m_strName + "-en</div>")
-        } 
-      });
+while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
+ with (g_Route.m_arrMains[0]) { 
+   // crockford lesújtó pillantást vet rám.
+   // de nem akarom milliószor végigírni azt a rengeteg cuccot. hogy csináljam szépen?
+   //console.log(m_arrSubs.length);
+   var subs = g_Route.m_arrMains[0].m_arrSubs.pop();
+     console.log(felszallsz);
+   if (subs.m_arrBkvLines.length > 0) {
+     while (subs.m_arrBkvLines.length > 0) {
+       // mindahány járat ugyanonnan ugyanaddig megy, ugye?
+      var d = subs.m_arrBkvLines.pop();
+      $("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, d.m_strVType, d.m_strLink, subs.m_strStopFrom, d.m_iStops, subs.m_strStopTo, subs.m_iTravelMinutes))
+        if (subs.m_arrBkvLines.length == 0) { felszallsz = false }
+     }
+   } else {
+    //felszallsz = true;
+   }
+ }
+}
+  //jQuery.each(g_Route.m_arrMains[0].m_arrSubs, function(a,b) {
+        //if (b.m_arrBkvLines.length > 0) {
+          ////..azaz nem sétálunk
+          //jQuery.each(b.m_arrBkvLines, function(c,d) {
+            //console.log(felszallsz);
+            //$("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, d.m_strVType, d.m_strLink, b.m_strStopFrom, d.m_iStops, b.m_strStopTo, b.m_iTravelMinutes))
+          //});
+        //} else {
+        //// azaz sétálunk
+          //$("#bkv").append("<div class='utvonal'>menj gyalog "+ b.m_iLength +" métert a " + b.m_strName + "-en</div>")
+        //} 
+      //});
 
 
 }
