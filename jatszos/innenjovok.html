@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <title>Innenjovok</title>
+  <script src="http://localhost:8080/js/jquery-1.4.3.min.js"></script>
+  <link rel="stylesheet" href="http://localhost:8080/css/negyeshatos.css" type="text/css" media="screen" charset="utf-8">
+  <style type="text/css" media="screen">
+    .inplacecuccos {
+      border-bottom: 1px dotted black;
+      cursor:hand;
+      font-size:12pt;
+      font-weight:normal;
+      font-family:sans;
+    }
+    #from.inplacecuccos:hover {
+      background-color:yellow;
+    }
+  </style>
+  <script>
+    $(document).ready(function(){
+      $("#from").click(function(){
+        var editbox = $("<input>").addClass("inplacecuccos")
+        .val($(this).html())
+        .width($(this).width());
+        $(this).after(editbox).hide();  
+        $('input').focus()
+                  .blur(function() {
+                    var text = $(this)[0].value;
+                    if (text != "") {
+                      $(this).remove(); 
+                      $("#from").html(text).show();
+                    }
+        })
+      })
+    })
+  </script>
+</head>
+<body>
+  Itt vagyok: <span class="inplacecuccos" id="from" title="Kattints ide a megváltoztatáshoz">1053 Budapest, Kossuth Lajos utca 13, Magyarország</span>
+</body>
+</html>

@@ -7,7 +7,6 @@ jQuery(document).ready(function(){
     if(geo_position_js.init()){
       geo_position_js.getCurrentPosition(
         function(position) {
-          console.log(position.coords.latitude, position.coords.longitude);
           reverz(position.coords.latitude, position.coords.longitude);
         },
         function(error) {
@@ -15,15 +14,25 @@ jQuery(document).ready(function(){
         });
     }
     else{
-    // kézzel kell kitölteni a dobozt
+     jQuery("#from").html("?");
     }
 
+      $("#from").click(function(){
+        var editbox = $("<input>").addClass("inplacecuccos")
+        .val($(this).html())
+        .width($(this).width());
+        $(this).after(editbox).hide();  
+        $('input').focus()
+                  .blur(function() {
+                    geokod($(this).val(), this);
+                    var text = $(this)[0].value;
+                    if (text != "") {
+                      $(this).remove(); 
+                      $("#from").html(text).show();
+                    }
+        })
+      })
 
-   $("input").blur(function(){
-     if ($(this).val() != "") {
-       geokod($(this).val(), this);
-     }
-   })
 
    $("form").submit(function(){
      var koordinatak = [];
@@ -70,7 +79,7 @@ var reverz = function(lat,lng) {
   var bla = new google.maps.LatLng(lat,lng);
   geocoder.geocode({"latLng": bla}, function(results, status) {
     if (status = google.maps.GeocoderStatus.OK) {
-        jQuery("#from").val(results[0].formatted_address)
+        jQuery("#from").html(results[0].formatted_address)
                        .data("lat", lat)
                        .data("lon", lng);
     }

@@ -13,7 +13,7 @@ from rfc822 import parsedate
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
-    self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/negyeshatos2.html'), {}))
+    self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
 
 class VenueHandler(webapp.RequestHandler):
     def get(self):
