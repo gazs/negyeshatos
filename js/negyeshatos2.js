@@ -34,16 +34,15 @@ jQuery(document).ready(function(){
       })
 
    $.getJSON("/merrevagytok?", function(json) {
-      console.log(json);    
       $.each(json, function(i,e) {
         var venue = $("<div>").addClass("fsvenue");
         var friendshere = $("<div>").addClass("fsfriendshere");
         var venuename = $("<div>").addClass("fsvenuename");
         venue.html($("<img>").attr("src", e.icon))
+        venue.data("lat", e.geolat)
+             .data("lon", e.geolong);
         venuename.html(e.name)
-                 .data("lat", e.geolat)
-                 .data("lon", e.geolong);
-        $.each(e.here, function(j,f) {
+         $.each(e.here, function(j,f) {
           $("<img>").attr("src", f.photo)
                     .attr("title", f.lastname + " " + f.firstname)
                     .appendTo($(friendshere))})
@@ -56,6 +55,15 @@ jQuery(document).ready(function(){
           } else {
             $(".fsvenue").fadeOut();
             $(this).toggleClass("selected").fadeIn();
+            // a shit ami happenel, maga a varázslat,
+            // ladies and germs, the moment we've all
+            // been waiting for, i give you...
+            var koordinatak = [];
+            koordinatak.push($("#from").data("lon"));
+            koordinatak.push($("#from").data("lat"));
+            koordinatak.push($(this).data("lon"));
+            koordinatak.push($(this).data("lat")); 
+            tervezz.apply(this,koordinatak);
           }
         });
         venue.append("<div style='clear:both'>").appendTo($("#foursquare"));
@@ -68,6 +76,7 @@ jQuery(document).ready(function(){
        koordinatak.push($(this).data("lon"));
        koordinatak.push($(this).data("lat")); 
      })
+     console.log(koordinatak);
      tervezz.apply(this, koordinatak);
      return false
    })
