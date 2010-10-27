@@ -109,6 +109,7 @@ var reverz = function (lat, lng) {
 };
 
 var geokod = function (text, obj) {
+  console.log(text,obj);
   var koder = new google.maps.Geocoder(),
       params = {
   //crockford barátom, miért ide akarod ezt indentálni?
@@ -211,7 +212,7 @@ jQuery(document).ready(function () {
       jQuery(this).after(editbox).hide();  
       jQuery('input').focus()
                 .blur(function () {
-                  geokod(jQuery(this).val(), this);
+                  geokod(jQuery(this).val(), $("#from"));
                   var text = jQuery(this)[0].value;
                   if (text !== "") {
                     jQuery(this).remove(); 
@@ -238,11 +239,13 @@ jQuery(document).ready(function () {
         venuename.appendTo(venue);
         venue.click(function () {
           if (jQuery(".fsvenue:visible").length === 1) {
+            jQuery("#bkv").html("");
             jQuery(this).toggleClass("selected");
             jQuery(".fsvenue").fadeIn();
           } else {
             jQuery(".fsvenue").fadeOut();
             jQuery(this).toggleClass("selected").fadeIn();
+            jQuery("#bkv").html("spinner!");
             // a shit ami happenel, maga a varázslat,
             // ladies and germs, the moment we've all
             // been waiting for, i give you...
