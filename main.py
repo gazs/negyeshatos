@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import logging
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 import os
@@ -9,10 +11,13 @@ from google.appengine.ext import db
 import foursquare
 import oauth
 import uuid
-
+from django.utils import simplejson
 #dátumok egymásból kivonására, bleh.
 import time
 from rfc822 import parsedate
+
+oauth_key = "5D10T01NV0LF3X54FS2AW5IVN0CE5UOGE2QF0VLHQZ3T4ORA"
+oauth_secret = "WQSGWIWEBAUFDIYNCQISW2JX04PUGER4RTFIDW1YNINZ0PBO"
 
 class AppToken(db.Model):
     token = db.StringProperty(required=True)
@@ -26,12 +31,13 @@ class CookieToken(db.Model):
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
-    self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
+    if "4sqid" in self.request.cookies:
+      self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
+    else:
+      self.redirect('/oauthproba')
 
 class OauthProba(webapp.RequestHandler):
   def get(self):
-    oauth_key = "5D10T01NV0LF3X54FS2AW5IVN0CE5UOGE2QF0VLHQZ3T4ORA"
-    oauth_secret = "WQSGWIWEBAUFDIYNCQISW2JX04PUGER4RTFIDW1YNINZ0PBO"
     credentials = foursquare.OAuthCredentials(oauth_key, oauth_secret)
     fs = foursquare.Foursquare(credentials)
 
@@ -47,23 +53,27 @@ class OauthProba(webapp.RequestHandler):
       oauth_verifier = self.request.get("oauth_verifier")
       user_token = fs.access_token(oauth.OAuthToken(app_token.token, app_token.secret), oauth_verifier)
       credentials.set_access_token(user_token)
-      permatoken = credentials.get_access_token()
       cookie = str(uuid.uuid4())
-      new_cookietoken = CookieToken(token = permatoken.key, secret = permatoken.secret, cookie = cookie) 
+      new_cookietoken = CookieToken(token = user_token.key, secret = user_token.secret, cookie = cookie) 
       new_cookietoken.put()
       self.response.headers.add_header('Set-Cookie', '4sqid = ' + cookie)
-      # ha jól értem, dobhatjuk is ki az app_tokent
+      # ha jól értem, dobhatjuk is ki az app_tokent. hát EZÉRT érdemes volt.
       app_token.delete()
       self.redirect('/')
 
 
 class VenueHandler(webapp.RequestHandler):
     def get(self):
-        from django.utils import simplejson
-        import foursquare
-        fs = foursquare.Foursquare(foursquare.BasicCredentials('gazs@bergengocia.net', 'asdfasdf'))
+        cookie = self.request.cookies['4sqid']
+        cookietoken = CookieToken.all().filter('cookie = ', cookie).get()
+        credentials = foursquare.OAuthCredentials(oauth_key, oauth_secret)
+        user_token = oauth.OAuthToken(cookietoken.token, cookietoken.secret)
+        credentials.set_access_token(user_token)
+        fs = foursquare.Foursquare(credentials)
+        
+        fscheckins = fs.checkins()['checkins']
         venyuz = []
-        for checkin in fs.checkins()['checkins']:
+        for checkin in fscheckins:
           if 'venue' in checkin:
             venue = checkin['venue']
             user = checkin['user']
@@ -72,7 +82,8 @@ class VenueHandler(webapp.RequestHandler):
             venyunevek = [x['name'] for x in venyuz]
             if venue['name'] in venyunevek:
               ezittmost = venyuz[venyunevek.index(venue['name'])]
-              ezittmost.append(user)
+              #logging.error(ezittmost)
+              ezittmost['here'].append(user)
               if time.mktime(parsedate(ezittmost['lastseen'])) - time.mktime(parsedate(checkin['created'])) < 0:
                 ezittmost['lastseen'] = checkin['created'] # új frissebb (nagyobb a timestamp) mint régi
                 # ... ugye?
