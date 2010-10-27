@@ -34,7 +34,7 @@ class MainHandler(webapp.RequestHandler):
     if "4sqid" in self.request.cookies:
       self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
     else:
-      self.redirect('/oauthproba')
+      self.redirect('/oauth')
 
 class OauthProba(webapp.RequestHandler):
   def get(self):
@@ -43,7 +43,7 @@ class OauthProba(webapp.RequestHandler):
 
     oauth_token = self.request.get("oauth_token")
     if not oauth_token:
-      app_token = fs.request_token()#oauth_callback='http://localhost:8080/oauthproba')
+      app_token = fs.request_token()#oauth_callback='http://localhost:8080/oauth')
       app_url = fs.authorize(app_token)
       new_apptoken = AppToken(token = app_token.key, secret = app_token.secret)
       new_apptoken.put()
@@ -100,7 +100,7 @@ class VenueHandler(webapp.RequestHandler):
 
 def main():
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
-                                          ('/oauthproba', OauthProba),
+                                          ('/oauth', OauthProba),
                                           ('/', MainHandler)
                                          ],
                                          debug=True)
