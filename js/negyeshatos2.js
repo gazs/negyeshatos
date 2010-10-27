@@ -119,21 +119,27 @@ var FillRoute = function() {
 $("#bkv").html("");
 felszallsz = true;
 while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
+var seta;
  with (g_Route.m_arrMains[0]) { 
    // crockford lesújtó pillantást vet rám.
    // de nem akarom milliószor végigírni azt a rengeteg cuccot. hogy csináljam szépen?
    //console.log(m_arrSubs.length);
    var subs = g_Route.m_arrMains[0].m_arrSubs.pop();
-     console.log(felszallsz);
    if (subs.m_arrBkvLines.length > 0) {
      while (subs.m_arrBkvLines.length > 0) {
        // mindahány járat ugyanonnan ugyanaddig megy, ugye?
       var d = subs.m_arrBkvLines.pop();
+      if (seta > 100 ) {
+        $("#bkv").append("<div>Elsétálsz " + seta + " métert</div>");
+        seta = 0;
+      }
       $("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, d.m_strVType, d.m_strLink, subs.m_strStopFrom, d.m_iStops, subs.m_strStopTo, subs.m_iTravelMinutes))
         if (subs.m_arrBkvLines.length == 0) { felszallsz = false }
      }
    } else {
+     seta += subs.m_iLength;
     //felszallsz = true;
+    //$("#bkv").append("<div class='utvonal'>Elsétálsz "+ subs.m_iLength +" métert a " + subs.m_strName + "-en</div>")
    }
  }
 }
@@ -146,7 +152,6 @@ while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
           //});
         //} else {
         //// azaz sétálunk
-          //$("#bkv").append("<div class='utvonal'>menj gyalog "+ b.m_iLength +" métert a " + b.m_strName + "-en</div>")
         //} 
       //});
 
