@@ -13,6 +13,6 @@ print app_url
 # goto app_url!
 # sima redirekt?
 
-user_token = fs.access_token(app_token)
+user_token = fs.access_token(app_token, oauth_verifier)
 credentials.set_access_token(user_token)
 fs.user()
