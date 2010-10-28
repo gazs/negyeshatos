@@ -7,6 +7,8 @@ handlers:
 - url: /favicon.ico
   static_files: css/favicon.ico
   upload: css/favicon.ico
+- url: /img
+  static_dir: img
 - url: /css
   static_dir: css
 - url: /js
