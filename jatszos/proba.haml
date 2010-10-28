@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title 
+      = title
+    %link{'rel':'stylesheet', 'href':'http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css'}
+    %link{'rel':'stylesheet', 'href':'jqm.css'}
+    %script{'src': 'http://code.jquery.com/jquery-1.4.3.min.js'} /
+    %script{'src': 'http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js'} /
+  %body
+    %div{'data-role':'page'}
+      %div{'data-role':'header'}
+        %h1 Négyeshatos 
+      %div{'data-role':'content'}
+        %div{'data-role':'fieldcontain'}
+          %label{'for':'from'}
+            %h2 Itt vagy:
+          %input{'type':'text', 'name':'from'}
+        %h2 Ide mennél:
+        %ul{'id':'to', 'data-role':'listview', 'data-inset':'true'}
+          %li
+            %a{'href':'#'}
+              Mammut I. üzletház 
+            .ittvannak
+              %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/ASHKO32JVKSFXKNC.jpg'}
+              %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/EKEFUYANS55P0XPM.jpg'}
+            %a{'href':'#'}
+          %li
+            %a{'href':'#'} Infopark D
+          %li
+            %a{'href':'#'} SSP 
+          %li
+            %a{'href':'#'} Egyéb...
+        %h2 Így jutsz el oda:
+        %ul{'id':'utvonal', 'data-role':'listview', 'data-inset':'true'}
+          %li
+            Felszállsz egy 
+            %a{'href':'#'} 123- as buszra
+          %li
+            %a két
+          %li 
+            %a há
+        %p
+          Menetidő: 12 perc.
+      %div{'data-role':'footer'}
+        %h5
+          egyetekhagymáthangérienonjön

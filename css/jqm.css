@@ -1,0 +1,13 @@
+.avatar {
+  position:relative;
+  left:0px;
+  margin-right:0px;
+  width:32px;
+  height:32px;
+  border-top-left-radius:0;
+  float:none;
+}
+li.ui-li-has-thumb .ui-btn-inner {
+  padding-left:15px;
+  min-height:0px;
+}

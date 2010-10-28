@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title> 
+      4!
+    </title> 
+    <link href='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css' rel='stylesheet' /> 
+    <link href='css/jqm.css' rel='stylesheet' /> 
+    <script src='http://code.jquery.com/jquery-1.4.3.min.js'>/</script> 
+    <script src='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js'>/</script> 
+  </head> 
+  <body> 
+    <div data-role='page'> 
+      <div data-role='header'> 
+        <h1>bla</h1> 
+      </div> 
+      <div data-role='content'> 
+        
+%div{'data-role':'fieldcontain'}
+  %label{'for':'from'}
+    %h2 Itt vagy:
+  %input{'type':'text', 'name':'from'}
+%h2 Ide mennÃ©l:
+%ul{'id':'to', 'data-role':'listview', 'data-inset':'true'}
+  %li
+    %a{'href':'#'}
+      Mammut I. Ã¼zlethÃ¡z 
+    .ittvannak
+      %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/ASHKO32JVKSFXKNC.jpg'}
+      %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/EKEFUYANS55P0XPM.jpg'}
+    %a{'href':'#'}
+  %li
+    %a{'href':'#'} Infopark D
+  %li
+    %a{'href':'#'} SSP 
+  %li
+    %a{'href':'#'} EgyÃ©b...
+%h2 Ãgy jutsz el oda:
+%ul{'id':'utvonal', 'data-role':'listview', 'data-inset':'true'}
+  %li
+    FelszÃ¡llsz egy 
+    %a{'href':'#'} 123- as buszra
+  %li
+    %a kÃ©t
+  %li 
+    %a hÃ¡
+%p
+  MenetidÅ: 12 perc.
+%div{'data-role':'footer'}
+%h5
+  egyetekhagymÃ¡thangÃ©rienonjÃ¶n
+ 
+ 
+      </div> 
+      <div data-role='footer'> 
+        <h5> 
+          egyetekhagymÃ¡thangÃ©rienonjÃ¶n
+        </h5> 
+      </div> 
+    </div> 
+  </body> 
+</html> 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      {% block title %}{%endblock%}
+    </title>
+    <link href='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css' rel='stylesheet' />
+    <link href='css/jqm.css' rel='stylesheet' />
+    <script src='http://code.jquery.com/jquery-1.4.3.min.js'>/</script>
+    <script src='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js'>/</script>
+  </head>
+  <body>
+    <div data-role='page'>
+      <div data-role='header'>
+        <h1>Négyeshatos</h1>
+      </div>
+      <div data-role='content'>
+        {% block content %}
+        {% endblock %}
+      </div>
+      <div data-role='footer'>
+        <h5>
+          egyetekhagymáthangérienonjön
+        </h5>
+      </div>
+    </div>
+  </body>
+</html>

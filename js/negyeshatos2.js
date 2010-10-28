@@ -1,5 +1,3 @@
-
-
 var ll2eov = function (x, y) {
   // ez a bkv útvonaltervezőjének baltával szétszedett kódja
   // ha nem is olvashatóvá, de áttekinthetővé téve
@@ -109,7 +107,6 @@ var reverz = function (lat, lng) {
 };
 
 var geokod = function (text, obj) {
-  console.log(text,obj);
   var koder = new google.maps.Geocoder(),
       params = {
   //crockford barátom, miért ide akarod ezt indentálni?
@@ -118,7 +115,7 @@ var geokod = function (text, obj) {
     "language": "hu",
     "region": "hu",
     "bounds": new google.maps.LatLngBounds(
-        // ezek biza pest határai Szergej és Larry szerint
+        // ezek biza Pest határai Szergej és Larry szerint
         new google.maps.LatLng(47.3515010, 18.9251690), 
         new google.maps.LatLng(47.6133620, 19.3339160)) 
   };

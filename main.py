@@ -5,16 +5,23 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 import os
-from google.appengine.ext.webapp import template
+
+#from google.appengine.ext.webapp import template 
+import template
+
 from google.appengine.ext import db
+
+from hamlpy import hamlpy
 
 import foursquare
 import oauth
 import uuid
 from django.utils import simplejson
+
 #dátumok egymásból kivonására, bleh.
 import time
 from rfc822 import parsedate
+
 
 oauth_key = "5D10T01NV0LF3X54FS2AW5IVN0CE5UOGE2QF0VLHQZ3T4ORA"
 oauth_secret = "WQSGWIWEBAUFDIYNCQISW2JX04PUGER4RTFIDW1YNINZ0PBO"
@@ -32,7 +39,8 @@ class CookieToken(db.Model):
 class MainHandler(webapp.RequestHandler):
   def get(self):
     if "4sqid" in self.request.cookies:
-      self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
+      hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.haml')
+      self.response.out.write(template.render(hamlpath, {'title': 'bla'}, debug=True))
     else:
       self.redirect('/oauth')
 
@@ -99,6 +107,7 @@ class VenueHandler(webapp.RequestHandler):
         self.response.out.write(simplejson.dumps(venyuz))
 
 def main():
+    logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
                                           ('/oauth', OauthProba),
                                           ('/', MainHandler)

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HamlPy + jQMobile Első Nekifutás</title>
+    <link href='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css' rel='stylesheet' />
+    <link href='jqm.css' rel='stylesheet' />
+    <script src='http://code.jquery.com/jquery-1.4.3.min.js'>/</script>
+    <script src='http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js'>/</script>
+  </head>
+  <body>
+    <div data-role='page'>
+      <div data-role='header'>
+        <h1>Négyeshatos</h1>
+      </div>
+      <div data-role='content'>
+        <div data-role='fieldcontain'>
+          <label for='from'>
+            <h2>Itt vagyok:</h2>
+          </label>
+          <input type='text' name='from'></input>
+        </div>
+        <h2>Ide akarok eljutni:</h2>
+        <ul id='to' data-role='listview' data-inset='true'>
+          <li>
+            <a href='#'>
+              Mammut I. üzletház
+            </a>
+            <div class='ittvannak'>
+              <img class='avatar' src='http://playfoursquare.s3.amazonaws.com/userpix_thumbs/ASHKO32JVKSFXKNC.jpg' />
+              <img class='avatar' src='http://playfoursquare.s3.amazonaws.com/userpix_thumbs/EKEFUYANS55P0XPM.jpg' />
+            </div>
+            <a href='#'></a>
+          </li>
+          <li>
+            <a href='#'>Infopark D</a>
+          </li>
+          <li>
+            <a href='#'>SSP</a>
+          </li>
+          <li>
+            <a href='#'>Egyéb...</a>
+          </li>
+        </ul>
+        <h2>Így jutsz el oda:</h2>
+        <ul id='utvonal' data-role='listview' data-inset='true'>
+          <li>
+            Felszállsz egy
+            <a href='#'>123- as buszra</a>
+          </li>
+          <li>
+            <a>két</a>
+          </li>
+          <li>
+            <a>há</a>
+          </li>
+        </ul>
+        <p>
+          Menetidő: 12 perc.
+        </p>
+      </div>
+      <div data-role='footer'>
+        <h5>
+          egyetekhagymáthangérienonjön
+        </h5>
+      </div>
+    </div>
+  </body>
+</html>

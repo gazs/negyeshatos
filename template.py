@@ -113,7 +113,10 @@ def load(path, debug=False):
     try:
       #template = django.template.loader.get_template(file_name)
       hamlparser = hamlpy.Compiler()
-      template = Template(hamlparser.process(open(abspath).read()))
+      file = open(abspath).read()
+      html = hamlparser.process(file)
+      logging.debug(html)
+      template = Template(html)
     finally:
       _swap_settings(old_settings)
 
