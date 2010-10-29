@@ -57,6 +57,7 @@ var FillRoute = function () {
       seta,
       subs,
       d;
+  $("#utvonal").empty();
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
     if (subs.m_arrBkvLines.length > 0) {
@@ -88,7 +89,6 @@ var FillRoute = function () {
         //jQuery("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, 
               //d.m_strVType, d.m_strLink, subs.m_strStopFrom, d.m_iStops, 
               //subs.m_strStopTo, subs.m_iTravelMinutes));
-        console.log(felszallo_megallo);
         if (subs.m_arrBkvLines.length === 0) {
           felszallsz = false;
         }
@@ -165,20 +165,25 @@ var geokod = function (text, obj) {
 };
 
 jQuery(document).ready(function(){
+    // íme, astoria
     var locations = [
       {coords:
         {latitude: 47.4943190,
          longitude: 19.0599840}
       }
     ];
-    geo_position_js_simulator.init(locations);
+    //geo_position_js_simulator.init(locations);
+    jQuery('#from').blur(function () {
+      if (jQuery(this).value !== "") {
+        geokod(jQuery(this).val(), jQuery(this)); 
+      }
+    })
     jQuery("#to a").click(function(){
       var koordinatak = [];
       koordinatak.push(jQuery("#from").data("lon"));
       koordinatak.push(jQuery("#from").data("lat"));
       koordinatak.push(jQuery(this).data("lon"));
       koordinatak.push(jQuery(this).data("lat")); 
-      console.log(koordinatak)
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
     })

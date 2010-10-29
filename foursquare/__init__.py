@@ -114,13 +114,21 @@ def_method('request_token',
            optional=['oauth_callback'],
            url_template=OAUTH_URL_TEMPLATE,
            namespaced=False)
+# hackish!
+def_method('authenticate',
+           server=OAUTH_SERVER,
+           required=['token'],
+           optional=['oauth_callback'],
+           returns='request_url',
+           url_template= string.Template('http://foursquare.com/mobile/oauth/${method}'),# OAUTH_URL_TEMPLATE,
+           namespaced=False)
 
 def_method('authorize',
            server=OAUTH_SERVER,
            required=['token'],
            optional=['oauth_callback'],
            returns='request_url',
-           url_template=OAUTH_URL_TEMPLATE,
+           url_template= OAUTH_URL_TEMPLATE, #string.Template('http://foursquare.com/mobile/oauth/${method}'),# OAUTH_URL_TEMPLATE,
            namespaced=False)
 
 def_method('access_token',

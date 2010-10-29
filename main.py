@@ -41,7 +41,7 @@ class MainHandler(webapp.RequestHandler):
     if "4sqid" in self.request.cookies:
       venyuz = holvagytok(self.request.cookies['4sqid'])
       hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.haml')
-      self.response.out.write(template.render(hamlpath, {'title': 'bla', 'venyuz': venyuz}, debug=True))
+      self.response.out.write(template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
     else:
       self.redirect('/oauth')
 
@@ -53,7 +53,7 @@ class OauthProba(webapp.RequestHandler):
     oauth_token = self.request.get("oauth_token")
     if not oauth_token:
       app_token = fs.request_token()
-      app_url = fs.authorize(app_token)
+      app_url = fs.authenticate(app_token)
       new_apptoken = AppToken(token = app_token.key, secret = app_token.secret)
       new_apptoken.put()
       self.redirect(app_url)
@@ -111,7 +111,7 @@ class VenueHandler(webapp.RequestHandler):
         self.response.out.write(simplejson.dumps(venyuz))
 
 def main():
-    logging.getLogger().setLevel(logging.DEBUG)
+    #logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
                                           ('/oauth', OauthProba),
                                           ('/', MainHandler)

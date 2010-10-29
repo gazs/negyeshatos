@@ -3,6 +3,18 @@ version: 1
 runtime: python
 api_version: 1
 
+skip_files:
+- ^jquery-mobile/*
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?.*\.bak$
 handlers:
 - url: /favicon.ico
   static_files: css/favicon.ico
