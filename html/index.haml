@@ -7,13 +7,13 @@
 - block elsolepes 
   %div{'data-role':'fieldcontain'}
     %label{'for':'from'}
-      %h2 Itt vagy:
+      %h2 Itt vagyok:
     %input#from{'type':'text', 'name':'from'}
-  %h2 Ide mennél:
+  %h2 Ide mennék:
   %ul#to{'data-role':'listview', 'data-inset':'true'}
     - for venyu in venyuz
       %li
-        %a{'href':'#masodiklepes'}
+        %a{'href':'#masodiklepes', 'data-lat':'{{venyu.geolat}}', 'data-lon':'{{venyu.geolong}}'}
           = venyu.name
         .ittvannak
           - for friend in venyu.here
@@ -25,12 +25,5 @@
 - block masodiklepes
   %h2 Így jutsz el ide: <span id="uticel"></span>
   %ul{'id':'utvonal', 'data-role':'listview', 'data-inset':'true'}
-    %li
-      Felszállsz egy 
-      %a{'href':'#'} 123- as buszra
-    %li
-      %a két
-    %li 
-      %a há
-  %p
-    Menetidő: 12 perc.
+  %p#utinfo
+    

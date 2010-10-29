@@ -39,7 +39,6 @@ http://www.djangoproject.com/documentation/templates/
 """
 
 
-import logging
 
 
 import md5
@@ -115,7 +114,6 @@ def load(path, debug=False):
       hamlparser = hamlpy.Compiler()
       file = open(abspath).read()
       html = hamlparser.process(file)
-      logging.debug(html)
       template = Template(html)
     finally:
       _swap_settings(old_settings)

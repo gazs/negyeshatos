@@ -1,0 +1,3 @@
+[submodule "jquery-mobile"]
+	path = jquery-mobile
+	url = http://github.com/jquery/jquery-mobile.git
