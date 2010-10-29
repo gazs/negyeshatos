@@ -19,6 +19,8 @@ handlers:
 - url: /favicon.ico
   static_files: css/favicon.ico
   upload: css/favicon.ico
+- url: /jegyzetek
+  static_dir: jegyzetek
 - url: /img
   static_dir: img
 - url: /css

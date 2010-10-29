@@ -6,12 +6,12 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 import os
 
-#from google.appengine.ext.webapp import template 
-import template
 
 from google.appengine.ext import db
 
-from hamlpy import hamlpy
+from google.appengine.ext.webapp import template
+
+#from hamlpy import hamlpy
 
 import foursquare
 import oauth
@@ -40,7 +40,7 @@ class MainHandler(webapp.RequestHandler):
   def get(self):
     if "4sqid" in self.request.cookies:
       venyuz = holvagytok(self.request.cookies['4sqid'])
-      hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.haml')
+      hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.html')
       self.response.out.write(template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
     else:
       self.redirect('/oauth')

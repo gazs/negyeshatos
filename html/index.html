@@ -1,28 +1,61 @@
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+{% extends "base.html" %}
+{% block title %}
+  {{ title }}
+{% endblock %}
 
-  <title>4s-hatos</title>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script src="js/jquery-1.4.3.min.js"></script>
-    <script src="js/geo.js"></script>
-    <!--<script src="js/geo_position_js_simulator.js"></script>-->
-    <script src="js/negyeshatos2.js"></script>
-    <link rel="stylesheet" href="css/negyeshatos.css" type="text/css" media="screen" charset="utf-8">
-  <style type="text/css" media="screen">
-
-  </style>
-</head>
-<body>
-  <h1><img src="css/negyeshatoslogo.png"> Négyeshatos</h1>
-  <div>Itt vagyok: <span class="inplacecuccos" id="from" title="Kattints ide a megváltoztatáshoz"></span>
+{% block elsolepes %}
+<div data-role='page' id='elsolepes'>
+  <div data-role='header'>
+    <h1>négyeshatos</h1>
   </div>
-  <div id="to">Ide akarok eljutni:
-  <div id="foursquare">
+  <div data-role='content'>
+    <div data-role='fieldcontain'>
+      <label for='from'>
+        <h2>Itt vagyok:</h2>
+      </label>
+      <input id='from' type='text' name='from'></input>
+    </div>
+    <h2>Ide mennék:</h2>
+    <ul id='to' data-role='listview' data-inset='true'>
+      {% for venyu in venyuz %}
+        <li>
+          <a data-lon='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
+            {{ venyu.name }}
+          </a>
+          <div class='ittvannak'>
+            {% for friend in venyu.here %}
+              <img class='avatar' src='{{friend.photo}}' />
+            {% endfor %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
-  <div id="bkv">
-    
+  <div data-role='footer'>
+    <a href='#about'>about</a>
   </div>
 </div>
-</body>
-</html>
+{% endblock %}
+{% block masodiklepes %}
+<div data-role='page' id='masodiklepes'>
+  <div data-role='header'>
+    <h1>négyeshatos</h1>
+  </div>
+  <div data-role='content'>
+    <h2>Így jutsz el ide: <span id="uticel"></span></h2>
+    <ul id='utvonal' data-role='listview' data-inset='true'></ul>
+    <p id='utinfo'></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block kereses %}
+<div data-role='page' id='kereses'>
+  <div data-role='header'>
+    <h1>venyukeresés</h1>
+  </div>
+  <div data-role='page'>
+    <h2>ezt még például meg kell csinálni. egyelőre nothing to see here, move along.</h2>
+  </div>
+</div>
+{% endblock %}
