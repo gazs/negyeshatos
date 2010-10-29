@@ -39,8 +39,9 @@ class CookieToken(db.Model):
 class MainHandler(webapp.RequestHandler):
   def get(self):
     if "4sqid" in self.request.cookies:
+      venyuz = holvagytok(self.request.cookies['4sqid'])
       hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.haml')
-      self.response.out.write(template.render(hamlpath, {'title': 'bla'}, debug=True))
+      self.response.out.write(template.render(hamlpath, {'title': 'bla', 'venyuz': venyuz}, debug=True))
     else:
       self.redirect('/oauth')
 
@@ -51,7 +52,7 @@ class OauthProba(webapp.RequestHandler):
 
     oauth_token = self.request.get("oauth_token")
     if not oauth_token:
-      app_token = fs.request_token()#oauth_callback='http://localhost:8080/oauth')
+      app_token = fs.request_token()
       app_url = fs.authorize(app_token)
       new_apptoken = AppToken(token = app_token.key, secret = app_token.secret)
       new_apptoken.put()
@@ -69,41 +70,44 @@ class OauthProba(webapp.RequestHandler):
       app_token.delete()
       self.redirect('/')
 
+def holvagytok(cookie):
+  cookietoken = CookieToken.all().filter('cookie = ', cookie).get()
+  credentials = foursquare.OAuthCredentials(oauth_key, oauth_secret)
+  user_token = oauth.OAuthToken(cookietoken.token, cookietoken.secret)
+  credentials.set_access_token(user_token)
+  fs = foursquare.Foursquare(credentials)
+  fscheckins = fs.checkins()['checkins']
+  venyuz = []
+  for checkin in fscheckins:
+    if 'venue' in checkin:
+      venue = checkin['venue']
+      user = checkin['user']
+      # ha létezik a venyuzban a venyu, akkor csak a dátumot és az ottlevőket frissítse
+      # nemszép! pfuj! fixme!
+      venyunevek = [x['name'] for x in venyuz]
+      if venue['name'] in venyunevek:
+        ezittmost = venyuz[venyunevek.index(venue['name'])]
+        #logging.error(ezittmost)
+        ezittmost['here'].append(user)
+        if time.mktime(parsedate(ezittmost['lastseen'])) - time.mktime(parsedate(checkin['created'])) < 0:
+          ezittmost['lastseen'] = checkin['created'] # új frissebb (nagyobb a timestamp) mint régi
+          # ... ugye?
+      else:
+      # ha még nincs, akkor adja hozzá
+        venyuz.append({
+          'name': venue['name'],
+          'geolat': venue['geolat'],
+          'geolong': venue['geolong'],
+          'lastseen': checkin['created'],
+          'here': [user]
+              })
+  return venyuz
+
 
 class VenueHandler(webapp.RequestHandler):
     def get(self):
         cookie = self.request.cookies['4sqid']
-        cookietoken = CookieToken.all().filter('cookie = ', cookie).get()
-        credentials = foursquare.OAuthCredentials(oauth_key, oauth_secret)
-        user_token = oauth.OAuthToken(cookietoken.token, cookietoken.secret)
-        credentials.set_access_token(user_token)
-        fs = foursquare.Foursquare(credentials)
-        
-        fscheckins = fs.checkins()['checkins']
-        venyuz = []
-        for checkin in fscheckins:
-          if 'venue' in checkin:
-            venue = checkin['venue']
-            user = checkin['user']
-            # ha létezik a venyuzban a venyu, akkor csak a dátumot és az ottlevőket frissítse
-            # nemszép! pfuj! fixme!
-            venyunevek = [x['name'] for x in venyuz]
-            if venue['name'] in venyunevek:
-              ezittmost = venyuz[venyunevek.index(venue['name'])]
-              #logging.error(ezittmost)
-              ezittmost['here'].append(user)
-              if time.mktime(parsedate(ezittmost['lastseen'])) - time.mktime(parsedate(checkin['created'])) < 0:
-                ezittmost['lastseen'] = checkin['created'] # új frissebb (nagyobb a timestamp) mint régi
-                # ... ugye?
-            else:
-            # ha még nincs, akkor adja hozzá
-              venyuz.append({
-                'name': venue['name'],
-                'geolat': venue['geolat'],
-                'geolong': venue['geolong'],
-                'lastseen': checkin['created'],
-                'here': [user]
-                })
+        venyuz = holvagytok(cookie)
         self.response.out.write(simplejson.dumps(venyuz))
 
 def main():

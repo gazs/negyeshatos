@@ -1,37 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}{{title}}{% endblock %}
 
+- block title
+  = title
 
-{% block content %}
-%div{'data-role':'fieldcontain'}
-  %label{'for':'from'}
-    %h2 Itt vagy:
-  %input{'type':'text', 'name':'from'}
-%h2 Ide mennél:
-%ul{'id':'to', 'data-role':'listview', 'data-inset':'true'}
-  %li
-    %a{'href':'#'}
-      Mammut I. üzletház 
-    .ittvannak
-      %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/ASHKO32JVKSFXKNC.jpg'}
-      %img{'class': 'avatar', 'src':'http://playfoursquare.s3.amazonaws.com/userpix_thumbs/EKEFUYANS55P0XPM.jpg'}
-    %a{'href':'#'}
-  %li
-    %a{'href':'#'} Infopark D
-  %li
-    %a{'href':'#'} SSP 
-  %li
-    %a{'href':'#'} Egyéb...
-%h2 Így jutsz el oda:
-%ul{'id':'utvonal', 'data-role':'listview', 'data-inset':'true'}
-  %li
-    Felszállsz egy 
-    %a{'href':'#'} 123- as buszra
-  %li
-    %a két
-  %li 
-    %a há
-%p
-  Menetidő: 12 perc.
-{% endblock  %}
+- block elsolepes 
+  %div{'data-role':'fieldcontain'}
+    %label{'for':'from'}
+      %h2 Itt vagy:
+    %input{'type':'text', 'name':'from'}
+  %h2 Ide mennél:
+  %ul#to{'data-role':'listview', 'data-inset':'true'}
+    - for venyu in venyuz
+      %li
+        %a{'href':'#masodiklepes'}
+          = venyu.name
+        .ittvannak
+          - for friend in venyu.here
+            %img{'class': 'avatar', 'src': '{{friend.photo}}'}
+    %li
+      %a{'href':'#masodiklepes'}
+        Egyéb&#0133;
+
+- block masodiklepes
+  %h2 Így jutsz el ide: <span id="uticel"></span>
+  %ul{'id':'utvonal', 'data-role':'listview', 'data-inset':'true'}
+    %li
+      Felszállsz egy 
+      %a{'href':'#'} 123- as buszra
+    %li
+      %a két
+    %li 
+      %a há
+  %p
+    Menetidő: 12 perc.
