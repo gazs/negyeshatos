@@ -6,7 +6,7 @@
 {% block elsolepes %}
 <div data-role='page' id='elsolepes'>
   <div data-role='header'>
-    <h1>négyeshatos</h1>
+    <h1><img src="/img/36.png">Négyeshatos</h1>
   </div>
   <div data-role='content'>
     <div data-role='fieldcontain'>
@@ -39,7 +39,7 @@
 {% block masodiklepes %}
 <div data-role='page' id='masodiklepes'>
   <div data-role='header'>
-    <h1>négyeshatos</h1>
+    <h1><img src="/img/36.png">Négyeshatos</h1>
   </div>
   <div data-role='content'>
     <h2>Így jutsz el ide: <span id="uticel"></span></h2>
@@ -52,10 +52,13 @@
 {% block kereses %}
 <div data-role='page' id='kereses'>
   <div data-role='header'>
-    <h1>venyukeresés</h1>
+    <h1>Menjél messzebb</h1>
   </div>
-  <div data-role='page'>
-    <h2>ezt még például meg kell csinálni. egyelőre nothing to see here, move along.</h2>
+  <div data-role='content'>
+    <div data-role="fieldcontain">
+      <label for="search">Nem Foursquare, hanem Google-geokódolás. Írd ide a pontos címet, a környéket, vagy akár csak a <b>buszmegállót</b> ahova el akarsz jutni </label>
+        <input type="text" id="egyebto" value="" />
+    </div><button type="submit" data-theme="a" id="huss">Huss</button>
   </div>
 </div>
 {% endblock %}

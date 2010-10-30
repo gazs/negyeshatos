@@ -45,6 +45,11 @@ class MainHandler(webapp.RequestHandler):
     else:
       self.redirect('/oauth')
 
+class AboutHandler(webapp.RequestHandler):
+  def get(self):
+    aboutpage = os.path.join(os.path.dirname(__file__), 'html/about.html')
+    self.response.out.write(template.render(aboutpage, {}))
+
 class OauthProba(webapp.RequestHandler):
   def get(self):
     credentials = foursquare.OAuthCredentials(oauth_key, oauth_secret)
@@ -68,7 +73,7 @@ class OauthProba(webapp.RequestHandler):
       self.response.headers.add_header('Set-Cookie', '4sqid = ' + cookie)
       # ha jól értem, dobhatjuk is ki az app_tokent. hát EZÉRT érdemes volt.
       app_token.delete()
-      self.redirect('/')
+      self.redirect('/app')
 
 def holvagytok(cookie):
   cookietoken = CookieToken.all().filter('cookie = ', cookie).get()
@@ -114,7 +119,8 @@ def main():
     #logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
                                           ('/oauth', OauthProba),
-                                          ('/', MainHandler)
+                                          ('/app', MainHandler),
+                                          ('/', AboutHandler)
                                          ],
                                          debug=True)
     util.run_wsgi_app(application)

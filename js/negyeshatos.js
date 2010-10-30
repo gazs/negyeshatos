@@ -145,7 +145,7 @@ var reverz = function (lat, lng) {
   });
 };
 
-var geokod = function (text, obj) {
+var geokod = function (text, obj, egyeb) {
   var koder = new google.maps.Geocoder(),
       params = {
   //crockford barátom, miért ide akarod ezt indentálni?
@@ -162,9 +162,16 @@ var geokod = function (text, obj) {
         jQuery(obj).data("lat", c[0].geometry.location.b)
                    .data("lon", c[0].geometry.location.c);
       });
+  if (egyeb) {
+    alert("bla");
+  }
 };
 
 jQuery(document).ready(function(){
+    if (window.location.hash !== "") {
+      jQuery.changePage($("#elsolepes"), $(window.location.hash), false, false); 
+      window.location.hash = "";
+    }
     // íme, astoria
     var locations = [
       {coords:
@@ -186,6 +193,12 @@ jQuery(document).ready(function(){
       koordinatak.push(jQuery(this).data("lat")); 
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
+    })
+    jQuery("#huss").click(function() {
+      var idemegyek = jQuery("#egyebto");
+      if (idemegyek.val() !== "") {
+       geokod(idemegyek.val(), idemegyek);
+      }
     })
     if (geo_position_js.init()) {
       geo_position_js.getCurrentPosition(

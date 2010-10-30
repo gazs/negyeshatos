@@ -4,6 +4,10 @@
     <title>
       {% block title %}{%endblock%}
     </title>
+    <link rel="apple-touch-icon" href="/img/negyeshatoslogo.png"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta property="og:image" content="/img/negyeshatoslogo.png"/> 
+
     <link href='css/jquery.mobile-1.0a1.min.css' rel='stylesheet' />
     <link href='css/jqm.css' rel='stylesheet' />
     <script src="js/geo.js"></script>
@@ -22,22 +26,26 @@
         {% endblock %}
         <div data-role='page' id='about'>
           <div data-role='header'>
-            <h1>Öbáut Négyeshatos</h1>
+            <h1><img src="/img/36.png">Négyeshatos</h1>
           </div>
           <div data-role='content'>
             <h1>Foursquare + BKV Útvonaltervező Mashup</h1>
+            <p>Az eszköz tudja, hol vagy; az eszköz tudja, <a href="http://foursquare.com">hol vannak a barátaid</a>; az eszköz tudja, <a href="http://bkv.hu">hogy járnak a buszok</a>; te tudod, hova akarsz menni. Éppen csak uzsonnát nem csomagol az útra. Questions?</p>
             <h2>Ismert bugok</h2>
             <ul>
               <li>#elsolepesben nem kattintható linkként az egész listaelem, csak a linkszöveg</li>
               <li>időnként fordított sorrendben jelennek meg az átszállások</li>
               <li>mobilon gyakorlatilag nem is teszteltük</li>
+              <li>android emulátoron nem tölti be a lokésnt. geo-js mintakód bezzeg megy</li>
             </ul>
             <h2>Todo</h2>
             <ul>
-              <li> párhuzamos buszraszállási lehetőségek normális jelölése
-              <li> szebb buszmenetrend-integráció
-              <li> ragozás (ne legyen milliószor ott, hogy "megálló", csúnya)
-              <li>nem-4sq / 4sq-de nem-baráti hely mutatása (lista végén "Egyéb...")
+              <li> párhuzamos buszraszállási lehetőségek normális jelölése</li>
+              <li> szebb buszmenetrend-integráció</li>
+              <li> ragozás (ne legyen milliószor ott, hogy "megálló", csúnya)</li>
+              <li>nem-4sq / 4sq-de nem-baráti hely mutatása (lista végén "Egyéb...")</li>
+            </ul>
+            <p>gazs // negyeshatos@bergengocia.net</p>
             </div>
             <div data-role='footer'>
               <h4>egyetekhagymáthangérienonjön</h4>

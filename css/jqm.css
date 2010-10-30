@@ -1,7 +1,13 @@
+.ui-header h1.ui-title { margin:auto }
+h1 img { vertical-align:middle; margin-right:5px;}
+.logo { vertical-align:middle}
+
 input.ui-input-text#from {
+  /*csúnya default mitakar*/
   width:100%;
 }
 .avatar {
+  /*túl okos akar lenni a framework és minden képet bezsúfolna ikonnak*/
   position:relative;
   left:0px;
   margin-right:0px;
@@ -15,4 +21,7 @@ li.ui-li-has-thumb .ui-btn-inner {
   min-height:0px;
 }
 
-.logo { vertical-align:middle}
+#utvonal .ui-li .ui-btn-text {
+  /* Az útvonal fontos, ne clippelje le a vég... */
+  white-space:normal;
+}
