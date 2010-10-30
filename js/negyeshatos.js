@@ -58,8 +58,10 @@ var FillRoute = function () {
       subs,
       d;
   $("#utvonal").empty();
+  g_Route.m_arrMains[0].m_arrSubs.reverse();
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
+    console.log(subs);
     if (subs.m_arrBkvLines.length > 0) {
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
@@ -83,7 +85,7 @@ var FillRoute = function () {
         utszakasz.append(felszallo_megallo + " megállótól ");
         utszakasz.append(jarat_link);
         utszakasz.append(" " + leszallo_megallo + " megállóig ");
-        utszakasz.append("(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)");
+        utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
         jQuery("ul#utvonal").append(utszakasz).listview("refresh");
 
         //jQuery("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, 
