@@ -22,9 +22,7 @@ from django.utils import simplejson
 import time
 from rfc822 import parsedate
 
-
-oauth_key = "5D10T01NV0LF3X54FS2AW5IVN0CE5UOGE2QF0VLHQZ3T4ORA"
-oauth_secret = "WQSGWIWEBAUFDIYNCQISW2JX04PUGER4RTFIDW1YNINZ0PBO"
+from titkok import oauth_key, oauth_secret
 
 class AppToken(db.Model):
     token = db.StringProperty(required=True)

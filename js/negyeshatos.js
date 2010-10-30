@@ -61,7 +61,6 @@ var FillRoute = function () {
   g_Route.m_arrMains[0].m_arrSubs.reverse();
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
-    console.log(subs);
     if (subs.m_arrBkvLines.length > 0) {
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
@@ -208,10 +207,12 @@ jQuery(document).ready(function(){
           reverz(position.coords.latitude, position.coords.longitude);
         },
         function (error) {
+        console.log("nincs fix?");
           jQuery("#from").val("?");
         });
     }
     else {
+      console.log("nem jó a geojs?");
       jQuery("#from").val("?");
     }
 })
