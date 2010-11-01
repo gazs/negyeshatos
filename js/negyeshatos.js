@@ -84,8 +84,8 @@ var FillRoute = function () {
           .html(jarat_szama)
           //.html([jarat_szama, jarat_tipusa].join(" "));
         utszakasz.append(jarat_link);
-        utszakasz.append(felszallo_megallo + " megállótól ");
-        utszakasz.append(" " + leszallo_megallo + " megállóig ");
+        utszakasz.append(felszallo_megallo + " &rarr; ");
+        utszakasz.append(" " + leszallo_megallo + " ");
         utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
         resz.append(utszakasz);
         if (subs.m_arrBkvLines.length === 0) {
@@ -96,6 +96,7 @@ var FillRoute = function () {
     } else {
       seta++;
     }
+    $("#utinfo").html(g_Route.m_iTravelMinutes + " perc menetidő")
     $("#ut").append(resz);
   }
 };
