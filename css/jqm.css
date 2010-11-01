@@ -1,4 +1,4 @@
-h2 { width:300px }
+h2 { min-width:300px }
 .ui-header h1.ui-title { margin:auto }
 h1 img { vertical-align:middle; margin-right:5px;}
 .logo { vertical-align:middle}
