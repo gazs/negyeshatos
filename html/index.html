@@ -20,8 +20,8 @@
       {% for venyu in venyuz %}
         <li>
           <a data-lon='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
-            {{ venyu.name }} <i>({{venyu.lastseen|date_diff}})</i>
-          </a>
+            {{ venyu.name }}
+          </a> <i>({{venyu.lastseen|date_diff}})</i>
           <div class='ittvannak'>
             {% for friend in venyu.here %}
               <img class='avatar' src='{{friend.photo}}' />
