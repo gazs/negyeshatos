@@ -21,6 +21,10 @@ li.ui-li-has-thumb .ui-btn-inner {
   min-height:0px;
 }
 
+li i {
+  color:#666;
+}
+
 #utvonal .ui-li .ui-btn-text {
   /* Az útvonal fontos, ne clippelje le a vég... */
   white-space:normal;
