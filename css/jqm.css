@@ -28,4 +28,59 @@ li i {
 #utvonal .ui-li .ui-btn-text {
   /* Az útvonal fontos, ne clippelje le a vég... */
   white-space:normal;
+  padding-left:40px;
+}
+
+.bkvJarat {
+  height:37px;
+  width:42px;
+  position:absolute;
+  top:0;
+  left:5px;
+  line-height:37px;
+  vertical-align:middle;
+  text-align:center;
+  border: 2px solid black;
+}
+/* sötét alapon világos */
+.bkvBusz, .bkvGyorsBusz, .bkvTroli, .bkvTroli, .bkvHev, .bkvMetro2, .bkvMetro3, .bkvFogas {
+    text-shadow: #444 0px 1px 1px;
+    color: #FFFFFF !important;
+    border-color: #ffffff;
+}
+/* világos alapon sötét */
+.bkvVillamos, .bkvMetro1, .bkvEjszakai {
+    color:black;
+    border-color: #000000;
+}
+.bkvBusz {
+    background-color: #20389F;
+}
+.bkvGyorsBusz {
+    background-color: #20389F;
+    border-color: #FF0000;
+}
+.bkvVillamos {
+    background-color: #FFE300;
+}
+.bkvTroli {
+    background-color: #CC3300;
+}
+.bkvHev {
+    background-color: #326E38;
+}
+.bkvMetro1 {
+    background-color: #FFB400;
+}
+.bkvMetro2 {
+    background-color: #FF0101;
+}
+.bkvMetro3 {
+    background-color: #0533EE;
+}
+.bkvEjszakai {
+    background-color: #808080;
+}
+.bkvFogas {
+    background-color: #FF0000;
 }

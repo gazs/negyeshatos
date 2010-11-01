@@ -48,6 +48,7 @@ ShowAddress = FillAddress = HereIam = kamu;
 
 // parasztcallback lol
 var FillRoute = function () {
+  $("#utinfo").html("");
   // Álljunk meg egy szóra, hogy mennyire undorító ez már. a 
   // fejlesztők nem hogy a JSON-ról, az object notationról se
   // hallottak, plusz az egész meg van szórva a hungarian
@@ -65,12 +66,8 @@ var FillRoute = function () {
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
         d = subs.m_arrBkvLines.pop();
-        if (seta > 100) {
-          //jQuery("#bkv").append("<div>Elsétálsz " + seta + 
-              //" métert</div>");
-          seta = 0;
-        }
         var jarat_szama = d.m_strName,
+            css_osztaly = d.m_strClass,
             jarat_tipusa = d.m_strVType.toLowerCase(),
             jarat_menetrend_link = d.m_strLink,
             felszallo_megallo = subs.m_strStopFrom,
@@ -80,22 +77,21 @@ var FillRoute = function () {
         var utszakasz = jQuery("<li>");
         var jarat_link = jQuery("<a>")
           .attr("href", jarat_menetrend_link)
-          .html([jarat_szama, jarat_tipusa].join(" "));
-        utszakasz.append(felszallo_megallo + " megállótól ");
+          .addClass("bkvJarat")
+          .addClass(css_osztaly)
+          .html(jarat_szama)
+          //.html([jarat_szama, jarat_tipusa].join(" "));
         utszakasz.append(jarat_link);
+        utszakasz.append(jarat_tipusa + " " + felszallo_megallo + " megállótól ");
         utszakasz.append(" " + leszallo_megallo + " megállóig ");
         utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
         jQuery("ul#utvonal").append(utszakasz).listview("refresh");
-
-        //jQuery("#bkv").append(utvonalszakasz(felszallsz, d.m_strName, 
-              //d.m_strVType, d.m_strLink, subs.m_strStopFrom, d.m_iStops, 
-              //subs.m_strStopTo, subs.m_iTravelMinutes));
         if (subs.m_arrBkvLines.length === 0) {
           felszallsz = false;
         }
       }
     } else {
-      seta += subs.m_iLength;
+      seta++;
     }
   }
 };
@@ -194,6 +190,7 @@ jQuery(document).ready(function(){
       koordinatak.push(jQuery(this).data("lat")); 
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
+      jQuery("#utinfo").html("spinner!")
     })
     jQuery("#huss").click(function() {
       var idemegyek = jQuery("#egyebto");
