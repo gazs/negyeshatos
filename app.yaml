@@ -16,6 +16,10 @@ skip_files:
 - ^(.*/)?\..*
 - ^(.*/)?.*\.bak$
 handlers:
+- url: /cache.manifest
+  static_files: cache.manifest
+  upload: cache.manifest
+  mime_type: text/cache-manifest
 - url: /favicon.ico
   static_files: css/favicon.ico
   upload: css/favicon.ico

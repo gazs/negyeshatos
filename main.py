@@ -10,8 +10,8 @@ import os
 from google.appengine.ext import db
 
 from google.appengine.ext.webapp import template
+webapp.template.register_template_library('datediff')
 
-#from hamlpy import hamlpy
 
 import foursquare
 import oauth
@@ -19,6 +19,7 @@ import uuid
 from django.utils import simplejson
 
 #dátumok egymásból kivonására, bleh.
+from datetime import datetime
 import time
 from rfc822 import parsedate
 
@@ -88,24 +89,23 @@ def holvagytok(cookie):
       # ha létezik a venyuzban a venyu, akkor csak a dátumot és az ottlevőket frissítse
       # nemszép! pfuj! fixme!
       venyunevek = [x['name'] for x in venyuz]
+      checkintimetuple = datetime.fromtimestamp(time.mktime(parsedate(checkin['created'])))
       if venue['name'] in venyunevek:
         ezittmost = venyuz[venyunevek.index(venue['name'])]
         #logging.error(ezittmost)
         ezittmost['here'].append(user)
-        if time.mktime(parsedate(ezittmost['lastseen'])) - time.mktime(parsedate(checkin['created'])) < 0:
-          ezittmost['lastseen'] = checkin['created'] # új frissebb (nagyobb a timestamp) mint régi
-          # ... ugye?
+        if checkintimetuple > ezittmost['lastseen']:
+          ezittmost['lastseen'] = checkintimetuple
       else:
       # ha még nincs, akkor adja hozzá
         venyuz.append({
           'name': venue['name'],
           'geolat': venue['geolat'],
           'geolong': venue['geolong'],
-          'lastseen': checkin['created'],
+          'lastseen': checkintimetuple,
           'here': [user]
               })
   return venyuz
-
 
 class VenueHandler(webapp.RequestHandler):
     def get(self):
