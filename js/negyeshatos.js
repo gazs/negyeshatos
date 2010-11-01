@@ -55,6 +55,7 @@ var FillRoute = function () {
   // notationnek egy teljesen beteg mutációjával: arr meg str
   // oké, de ki hallott már 1.26666667 értékű integerről?
   var felszallsz = true,
+      resz,
       seta,
       subs,
       d;
@@ -63,6 +64,7 @@ var FillRoute = function () {
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
     if (subs.m_arrBkvLines.length > 0) {
+      resz = $("<ul>").data('role', 'listview').data('inset', 'true');
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
         d = subs.m_arrBkvLines.pop();
@@ -85,14 +87,16 @@ var FillRoute = function () {
         utszakasz.append(jarat_tipusa + " " + felszallo_megallo + " megállótól ");
         utszakasz.append(" " + leszallo_megallo + " megállóig ");
         utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
-        jQuery("ul#utvonal").append(utszakasz).listview("refresh");
+        resz.append(utszakasz);
         if (subs.m_arrBkvLines.length === 0) {
           felszallsz = false;
         }
       }
+      resz.listview();
     } else {
       seta++;
     }
+    $("#ut").append(resz);
   }
 };
 

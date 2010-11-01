@@ -26,7 +26,7 @@ li i {
   color:#666;
 }
 
-#utvonal .ui-li .ui-btn-text {
+#ut .ui-li .ui-btn-text {
   /* Az útvonal fontos, ne clippelje le a vég... */
   white-space:normal;
   padding-left:40px;
