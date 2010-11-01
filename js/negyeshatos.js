@@ -59,7 +59,7 @@ var FillRoute = function () {
       seta,
       subs,
       d;
-  $("#utvonal").empty();
+  $("#ut").empty();
   g_Route.m_arrMains[0].m_arrSubs.reverse();
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
@@ -84,7 +84,7 @@ var FillRoute = function () {
           .html(jarat_szama)
           //.html([jarat_szama, jarat_tipusa].join(" "));
         utszakasz.append(jarat_link);
-        utszakasz.append(jarat_tipusa + " " + felszallo_megallo + " megállótól ");
+        utszakasz.append(felszallo_megallo + " megállótól ");
         utszakasz.append(" " + leszallo_megallo + " megállóig ");
         utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
         resz.append(utszakasz);
@@ -194,7 +194,7 @@ jQuery(document).ready(function(){
       koordinatak.push(jQuery(this).data("lat")); 
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
-      jQuery("#utinfo").html("spinner!")
+      jQuery("#ut").html("spinner!")
     })
     jQuery("#huss").click(function() {
       var idemegyek = jQuery("#egyebto");
