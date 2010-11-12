@@ -12,17 +12,67 @@
   p a { text-decoration:none; color: #2398C9; font-weight:bold }
   #footer {text-align:center; margin-top:100px; padding:5px; }
   #footer, #footer a {color:#ccc; }
+  .twtr-doc { margin: auto }
+  .twtr-widget p { font-size:12px }
 </style>
 <div id="kontent">
 <img src="/img/2-nagy.png" style="padding:20px; float:left">
 <div style="padding:20px;">
-  <h1>Négyeshatos </h1>
+  <h1>Négyeshatos</h1>
 <p>Az eszköz tudja, <a href="http://dev.w3.org/geo/api/spec-source.html">hol vagy</a>; az eszköz tudja, <a href="http://foursquare.com">hol vannak a barátaid</a>; az eszköz tudja, <a href="http://bkv.hu">hogy járnak a buszok</a>; te tudod, hova akarsz menni. Egyszerűbb nem is lehetne. Questions?</p> 
 <p><a href="/oauth"><img src="/img/signinwith-foursquare.png"></a></p>
 </div>
 </div>
+
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: '#4s-hatos',
+  interval: 6000,
+  title: 'The tram doesn\'t stop at Margitsziget',
+  subject: '',
+  width: 250,
+  height: 150,
+  theme: {
+    shell: {
+      background: '#8ec1da',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#1985b5',
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: true,
+    toptweets: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script>
 <div id="footer">
   Gazs @ <a href="http://bergengocia.net">Bergengocia.net</a>
 </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-19440499-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>

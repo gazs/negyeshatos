@@ -20,6 +20,8 @@ handlers:
   static_files: cache.manifest
   upload: cache.manifest
   mime_type: text/cache-manifest
+- url: /busz
+  static_dir: busz 
 - url: /favicon.ico
   static_files: css/favicon.ico
   upload: css/favicon.ico

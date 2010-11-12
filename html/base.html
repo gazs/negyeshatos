@@ -14,7 +14,7 @@
     <!--<script src="js/geo_position_js_simulator.js"></script>-->
     <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script src='js/jquery-1.4.3.min.js'>/</script>
-    <script src='js/jquery.mobile-1.0a1.min.js'>/</script>
+    <script src='js/jquery.mobile-1.0a1.js'>/</script>
     <script src='js/negyeshatos.js'></script>
   </head>
   <body>
@@ -39,9 +39,10 @@
             </ul>
             <h2>Todo</h2>
             <ul>
-              <li> párhuzamos buszraszállási lehetőségek normális jelölése</li>
+              <li>sétatérkép</li>
+              <li>hibakezelés</li>
+              <li>spinner</li>
               <li> szebb buszmenetrend-integráció</li>
-              <li> ragozás (ne legyen milliószor ott, hogy "megálló", csúnya)</li>
               <li>nem-4sq / 4sq-de nem-baráti hely mutatása (lista végén "Egyéb...")</li>
             </ul>
             <p>gazs // negyeshatos@bergengocia.net</p>
@@ -50,5 +51,18 @@
               <h4>egyetekhagymáthangérienonjön</h4>
             </div>
           </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-19440499-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
   </body>
 </html>

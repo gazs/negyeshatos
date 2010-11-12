@@ -78,7 +78,7 @@ var FillRoute = function () {
             utazas_hossza = subs.m_iTravelMinutes;
         var utszakasz = jQuery("<li>");
         var jarat_link = jQuery("<a>")
-          .attr("href", jarat_menetrend_link)
+          .attr("href", "/busz/1.html")
           .addClass("bkvJarat")
           .addClass(css_osztaly)
           .html(jarat_szama)
@@ -195,7 +195,7 @@ jQuery(document).ready(function(){
       koordinatak.push(jQuery(this).data("lat")); 
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
-      jQuery("#ut").html("spinner!")
+      jQuery("#ut").html("<img src='http://4s-hatos.appspot.com/css/images/ajax-loader.gif'>")
     })
     jQuery("#huss").click(function() {
       var idemegyek = jQuery("#egyebto");

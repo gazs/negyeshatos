@@ -98,14 +98,24 @@ def holvagytok(cookie):
           ezittmost['lastseen'] = checkintimetuple
       else:
       # ha még nincs, akkor adja hozzá
-        venyuz.append({
-          'name': venue['name'],
-          'geolat': venue['geolat'],
-          'geolong': venue['geolong'],
-          'lastseen': checkintimetuple,
-          'here': [user]
-              })
+        if 'geolat' in venue:
+          venyuz.append({
+            'name': venue['name'],
+            'geolat': venue['geolat'],
+            'geolong': venue['geolong'],
+            'lastseen': checkintimetuple,
+            'here': [user]
+                })
+        else:
+          pass
   return venyuz
+
+class KikVagytok(webapp.RequestHandler):
+  def get(self):
+    ck = CookieToken.all()
+    a = [x.token for x in ck]
+    self.response.out.write(" ".join(a))
+
 
 class VenueHandler(webapp.RequestHandler):
     def get(self):
@@ -116,6 +126,7 @@ class VenueHandler(webapp.RequestHandler):
 def main():
     #logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
+                                          ('/kikvagytok', KikVagytok),
                                           ('/oauth', OauthProba),
                                           ('/app', MainHandler),
                                           ('/', AboutHandler)
