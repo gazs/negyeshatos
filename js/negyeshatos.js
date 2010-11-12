@@ -78,7 +78,7 @@ var FillRoute = function () {
             utazas_hossza = subs.m_iTravelMinutes;
         var utszakasz = jQuery("<li>");
         var jarat_link = jQuery("<a>")
-          .attr("href", "/busz/1.html")
+          .attr("href", "/busz/mockup.html")
           .addClass("bkvJarat")
           .addClass(css_osztaly)
           .html(jarat_szama)
@@ -92,13 +92,13 @@ var FillRoute = function () {
           felszallsz = false;
         }
       }
-      resz.listview();
     } else {
       seta++;
     }
     $("#utinfo").html(g_Route.m_iTravelMinutes + " perc menetidő")
     $("#ut").append(resz);
   }
+  $("#ut ul").listview();
 };
 
 var tervezz = function (x1, y1, x2, y2) {
@@ -170,9 +170,9 @@ var geokod = function (text, obj, egyeb) {
 };
 
 jQuery(document).ready(function(){
+    $.mobile.loadingMessage = "türelem tornaterem";
     if (window.location.hash !== "") {
-      jQuery.changePage($("#elsolepes"), $(window.location.hash), false, false); 
-      window.location.hash = "";
+      $.mobile.changePage("#elsolepes", false, false, true);
     }
     // íme, astoria
     var locations = [
@@ -195,7 +195,7 @@ jQuery(document).ready(function(){
       koordinatak.push(jQuery(this).data("lat")); 
       tervezz.apply(this, koordinatak);
       jQuery("#masodiklepes #uticel").html($(this).html());
-      jQuery("#ut").html("<img src='http://4s-hatos.appspot.com/css/images/ajax-loader.gif'>")
+      $.mobile.pageLoading();
     })
     jQuery("#huss").click(function() {
       var idemegyek = jQuery("#egyebto");
