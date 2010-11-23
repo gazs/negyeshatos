@@ -195,7 +195,7 @@ $(document).ready(function(){
       koordinatak.push($(this).data("lon"));
       koordinatak.push($(this).data("lat")); 
       tervezz.apply(this, koordinatak);
-      $("#uticel").html($(this).html();
+      $("#uticel").html($(this).html());
       $.mobile.pageLoading();
     })
     $("#huss").click(function() {
