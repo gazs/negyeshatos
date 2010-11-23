@@ -1,6 +1,5 @@
 CACHE MANIFEST
-#rev3
-app
+#rev4
 img/signinwith-foursquare.png
 img/negyeshatoslogo.png
 img/2-nagy.png
@@ -39,5 +38,5 @@ js/jquery-1.4.4.min.js
 js/jquery.mobile-1.0a1.js
 js/negyeshatos2.js
 
-
-
+NETWORK:
+*

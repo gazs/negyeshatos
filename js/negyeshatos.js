@@ -48,7 +48,7 @@ ShowAddress = FillAddress = HereIam = kamu;
 
 // parasztcallback lol
 var FillRoute = function () {
-  $("#utinfo").html("");
+  $("#utinfo").empty();
   // Álljunk meg egy szóra, hogy mennyire undorító ez már. a 
   // fejlesztők nem hogy a JSON-ról, az object notationról se
   // hallottak, plusz az egész meg van szórva a hungarian
@@ -76,13 +76,12 @@ var FillRoute = function () {
             utazott_megallok = d.m_iStops,
             leszallo_megallo = subs.m_strStopTo,
             utazas_hossza = subs.m_iTravelMinutes;
-        var utszakasz = jQuery("<li>");
-        var jarat_link = jQuery("<a>")
+        var utszakasz = $("<li>");
+        var jarat_link = $("<a>")
           .attr("href", "/busz/mockup.html")
           .addClass("bkvJarat")
           .addClass(css_osztaly)
           .html(jarat_szama)
-          //.html([jarat_szama, jarat_tipusa].join(" "));
         utszakasz.append(jarat_link);
         utszakasz.append(felszallo_megallo + " &rarr; ");
         utszakasz.append(" " + leszallo_megallo + " ");
@@ -99,13 +98,15 @@ var FillRoute = function () {
     $("#ut").append(resz);
   }
   $("#ut ul").listview();
+
+  //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lon")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
 var tervezz = function (x1, y1, x2, y2) {
   // az x a 19 körüli, az y a 47 körüli érték
   var eov1 = ll2eov(x1, y1),
       eov2 = ll2eov(x2, y2);
-  jQuery.ajax({
+  $.ajax({
     type: "GET",
     url: "http://bkv.utvonalterv.hu/NoTile.ashx?",
     dataType: "script",
@@ -140,7 +141,7 @@ var reverz = function (lat, lng) {
   geocoder.geocode({"latLng": bla}, function (results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
       // ezt hívják tightly couplednek és nézik le mélyen, ugye?
-      jQuery("#from").val(results[0].formatted_address)
+      $("#from").val(results[0].formatted_address)
                      .data("lat", lat)
                      .data("lon", lng);
     }
@@ -161,15 +162,15 @@ var geokod = function (text, obj, egyeb) {
         new google.maps.LatLng(47.6133620, 19.3339160)) 
   };
   koder.geocode(params, function (c) {
-        jQuery(obj).data("lat", c[0].geometry.location.b)
-                   .data("lon", c[0].geometry.location.c);
+        $(obj).data("lat", c[0].geometry.location.b)
+              .data("lon", c[0].geometry.location.c);
       });
   if (egyeb) {
     alert("bla");
   }
 };
 
-jQuery(document).ready(function(){
+$(document).ready(function(){
     $.mobile.loadingMessage = "türelem tornaterem";
     if (window.location.hash !== "") {
       $.mobile.changePage("#elsolepes", false, false, true);
@@ -182,23 +183,23 @@ jQuery(document).ready(function(){
       }
     ];
     //geo_position_js_simulator.init(locations);
-    jQuery('#from').blur(function () {
-      if (jQuery(this).value !== "") {
-        geokod(jQuery(this).val(), jQuery(this)); 
+    $('#from').blur(function () {
+      if ($(this).value !== "") {
+        geokod($(this).val(), $(this)); 
       }
     })
-    jQuery("#to a").click(function(){
+    $("#to a").click(function(){
       var koordinatak = [];
-      koordinatak.push(jQuery("#from").data("lon"));
-      koordinatak.push(jQuery("#from").data("lat"));
-      koordinatak.push(jQuery(this).data("lon"));
-      koordinatak.push(jQuery(this).data("lat")); 
+      koordinatak.push($("#from").data("lon"));
+      koordinatak.push($("#from").data("lat"));
+      koordinatak.push($(this).data("lon"));
+      koordinatak.push($(this).data("lat")); 
       tervezz.apply(this, koordinatak);
-      jQuery("#masodiklepes #uticel").html($(this).html());
+      $("#uticel").html($(this).html();
       $.mobile.pageLoading();
     })
-    jQuery("#huss").click(function() {
-      var idemegyek = jQuery("#egyebto");
+    $("#huss").click(function() {
+      var idemegyek = $("#egyebto");
       if (idemegyek.val() !== "") {
        geokod(idemegyek.val(), idemegyek);
       }
@@ -210,11 +211,11 @@ jQuery(document).ready(function(){
         },
         function (error) {
         console.log("nincs fix?");
-          jQuery("#from").val("?");
+          $("#from").val("?");
         });
     }
     else {
       console.log("nem jó a geojs?");
-      jQuery("#from").val("?");
+      $("#from").val("?");
     }
 })

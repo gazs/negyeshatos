@@ -15,6 +15,7 @@ skip_files:
 - ^(.*/)?.*/RCS/.*
 - ^(.*/)?\..*
 - ^(.*/)?.*\.bak$
+- ^(.*/)?.*\.pdf
 handlers:
 - url: /cache.manifest
   static_files: cache.manifest
