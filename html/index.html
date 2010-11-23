@@ -19,7 +19,7 @@
     <ul id='to' data-role='listview' data-inset='true'>
       {% for venyu in venyuz %}
         <li>
-          <a data-lon='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
+          <a data-lng='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
             {{ venyu.name }}
           </a> <i>({{venyu.lastseen|date_diff}})</i>
           <div class='ittvannak'>

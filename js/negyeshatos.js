@@ -99,7 +99,7 @@ var FillRoute = function () {
   }
   $("#ut ul").listview();
 
-  //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lon")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
+  //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lng")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
 var tervezz = function (x1, y1, x2, y2) {
@@ -135,48 +135,67 @@ var tervezz = function (x1, y1, x2, y2) {
   });
 };
 
-var reverz = function (lat, lng) {
-  // latlng -> cím
-  var geocoder = new google.maps.Geocoder(),
-      bla = new google.maps.LatLng(lat, lng);
-  geocoder.geocode({"latLng": bla}, function (results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      // ezt hívják tightly couplednek és nézik le mélyen, ugye?
-      $("#from").val(results[0].formatted_address)
-                     .data("lat", lat)
-                     .data("lon", lng);
+
+(function ( $ ) {
+  $.fn.geokod = function(reverz) {
+    var koder = new google.maps.Geocoder(),
+    params = {
+      "language": "hu",
+      "region": "hu",
+    };
+    if (reverz) {
+      params.address = $(this).val();
+      params.bounds = new google.maps.LatLngBounds(
+          // ezek biza Pest határai Szergej és Larry szerint
+          new google.maps.LatLng(47.3515010, 18.9251690), 
+          new google.maps.LatLng(47.6133620, 19.3339160)) 
+    }
+    if (!reverz) {
+      var latlng = new google.maps.LatLng(a.lat, a.lng);
+      params.latLng = latlng;
+    }
+    koder.geocode(params, function (result, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        $(this).data("lat", result[0].geometry.location.sa)
+        $(this).data("lng", result[0].geometry.location.ta);
+        if (reverz) {
+          this.val(result[0].formatted_address);
+        }
+      }
     }
   });
-};
+  }  
+}) ( jQuery );
 
 var geokod = function (a) {
   var koder = new google.maps.Geocoder(),
   params = {
     "language": "hu",
     "region": "hu",
-    "bounds": new google.maps.LatLngBounds(
+  };
+  if (a.address) {
+    params.address = a.address;
+    params.bounds = new google.maps.LatLngBounds(
         // ezek biza Pest határai Szergej és Larry szerint
         new google.maps.LatLng(47.3515010, 18.9251690), 
         new google.maps.LatLng(47.6133620, 19.3339160)) 
-  };
-  if (a.address) {
-    params["address"] = a.address;
-  };
+  }
   if (a.lat && a.lng) {
     var latlng = new google.maps.LatLng(a.lat, a.lng);
-    params["latLng"] = latlng;
+    params.latLng = latlng;
   }
-  console.log(params);
+  if (a.selector) {
   koder.geocode(params, function (result, status) {
     if (status === google.maps.GeocoderStatus.OK) {
-    // csatold vissza lécci az adatot
-      $(a.obj)
+      $(a.selector).data("lat", result[0].geometry.location.sa)
+      $(a.selector).data("lng", result[0].geometry.location.ta);
+      if (a.lat) {
+        $(a.selector).val(result[0].formatted_address);
+      }
     }
+  });
   }
-        //$(obj).data("lat", c[0].geometry.location.b)
-              //.data("lon", c[0].geometry.location.c);
-      //});
-};
+}
 
 $(document).ready(function(){
     $.mobile.loadingMessage = "türelem tornaterem";
@@ -193,37 +212,37 @@ $(document).ready(function(){
     //geo_position_js_simulator.init(locations);
     $('#from').blur(function () {
       if ($(this).value !== "") {
-        geokod($(this).val(), $(this)); 
+        geokod({"address":$(this).val(), "obj":$(this)}); 
       }
     })
     $("#to a").click(function(){
       var koordinatak = [];
-      koordinatak.push($("#from").data("lon"));
+      koordinatak.push($("#from").data("lng"));
       koordinatak.push($("#from").data("lat"));
-      koordinatak.push($(this).data("lon"));
+      koordinatak.push($(this).data("lng"));
       koordinatak.push($(this).data("lat")); 
       tervezz.apply(this, koordinatak);
-      $("#uticel").html($(this).html();
+      $("#uticel").html($(this).html());
       $.mobile.pageLoading();
     })
     $("#huss").click(function() {
-      var idemegyek = $("#egyebto");
       if (idemegyek.val() !== "") {
-       geokod(idemegyek.val(), idemegyek);
+       geokod({"address":idemegyek.val(), "selector": "#egyebto"});
       }
     })
     if (geo_position_js.init()) {
       geo_position_js.getCurrentPosition(
         function (position) {
-          reverz(position.coords.latitude, position.coords.longitude);
+          //reverz(position.coords.latitude, position.coords.longitude);
+          geokod({"lat": position.coords.latitude, "lng": position.coords.longitude, "selector": "#from"});
         },
         function (error) {
-        console.log("nincs fix?");
+        alert("nincs fix?");
           $("#from").val("?");
         });
     }
     else {
-      console.log("nem jó a geojs?");
+     alert("nem jó a geojs?");
       $("#from").val("?");
     }
 })
