@@ -78,7 +78,7 @@ var FillRoute = function () {
             utazas_hossza = subs.m_iTravelMinutes;
         var utszakasz = $("<li>");
         var jarat_link = $("<a>")
-          .attr("href", "/busz/mockup.html")
+          .attr("href", jarat_menetrend_link) 
           .addClass("bkvJarat")
           .addClass(css_osztaly)
           .html(jarat_szama)
