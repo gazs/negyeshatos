@@ -1,39 +1,40 @@
-
-var ll2eov = function (x, y) {
+var ll2eov = (function () {
   // ez a bkv útvonaltervezőjének baltával szétszedett kódja
   // ha nem is olvashatóvá, de áttekinthetővé téve
-  var rad = Math.PI / 180,
-      rk1 = 1.0031100083,
-      k2 = 1.0007197049,
-      exc = 0.0818205679,
-      Lk = 19.0485718 * rad,
-      R = 6379743,
-      red = 0.99993,
-      fk = 47.1 * rad,
-      FI = y * rad,
-      LA = x * rad,
-      f = (Math.atan(rk1 * Math.pow(Math.tan(Math.PI / 4 + FI / 2), k2) *
-                 Math.pow((1 - exc * Math.sin(FI)) / (1 + exc * Math.sin(FI)), 
-                 k2 * exc / 2)) - Math.PI / 4) * 2,
-      l = (LA - Lk) * k2,
-      eovxC = function () {
-        return (R * red * Math.atan(Math.sin(l) / (Math.tan(f) * Math.sin(fk) + 
-                Math.cos(l) * Math.cos(fk))) + 650000);
-      },
-      eovyC = function () {
-        return (R / 2 * red * Math.log((1 + Math.cos(fk) * Math.sin(f) - 
-                Math.sin(fk) * Math.cos(f) * Math.cos(l)) / (1 - Math.cos(fk) * 
-                Math.sin(f) + Math.sin(fk) * Math.cos(f) * Math.cos(l))) + 
-                200000);
-      };
-
+  return function (x,y) {
   if (x > 18.67 && x < 19.73 && y > 47.07 && y < 47.78 &&
       !isNaN(x) && !isNaN(y)) { 
+    var rad, rk, k2, exc, Lk, R, red, fk, FI, LA, f, l;
+    rad = Math.PI / 180,
+    rk1 = 1.0031100083,
+    k2 = 1.0007197049,
+    exc = 0.0818205679,
+    Lk = 19.0485718 * rad,
+    R = 6379743,
+    red = 0.99993,
+    fk = 47.1 * rad,
+    FI = y * rad,
+    LA = x * rad,
+    f = (Math.atan(rk1 * Math.pow(Math.tan(Math.PI / 4 + FI / 2), k2) *
+               Math.pow((1 - exc * Math.sin(FI)) / (1 + exc * Math.sin(FI)), 
+               k2 * exc / 2)) - Math.PI / 4) * 2,
+    l = (LA - Lk) * k2,
+    eovxC = function () {
+      return (R * red * Math.atan(Math.sin(l) / (Math.tan(f) * Math.sin(fk) + 
+              Math.cos(l) * Math.cos(fk))) + 650000);
+    },
+    eovyC = function () {
+      return (R / 2 * red * Math.log((1 + Math.cos(fk) * Math.sin(f) - 
+              Math.sin(fk) * Math.cos(f) * Math.cos(l)) / (1 - Math.cos(fk) * 
+              Math.sin(f) + Math.sin(fk) * Math.cos(f) * Math.cos(l))) + 
+              200000);
+    };
     x = Math.round(eovxC(FI, LA));
     y = Math.round(eovyC(FI, LA)); 
     return [x, y];
+  }
   } 
-};
+} () );
 
 // parasztjson lol
 var g_arrAddressList = [],
@@ -43,7 +44,6 @@ var g_arrAddressList = [],
     ShowAddress,
     FillAddress,
     HereIam;
-
 ShowAddress = FillAddress = HereIam = kamu;
 
 // parasztcallback lol
@@ -136,6 +136,7 @@ var tervezz = function (x1, y1, x2, y2) {
 };
 
 var reverz = function (lat, lng) {
+  // latlng -> cím
   var geocoder = new google.maps.Geocoder(),
       bla = new google.maps.LatLng(lat, lng);
   geocoder.geocode({"latLng": bla}, function (results, status) {
@@ -148,12 +149,9 @@ var reverz = function (lat, lng) {
   });
 };
 
-var geokod = function (text, obj, egyeb) {
+var geokod = function (a) {
   var koder = new google.maps.Geocoder(),
-      params = {
-  //crockford barátom, miért ide akarod ezt indentálni?
-  //legyen igazad meg minden, de azért örülnék ha megmagyaráznád.
-    "address": text,
+  params = {
     "language": "hu",
     "region": "hu",
     "bounds": new google.maps.LatLngBounds(
@@ -161,13 +159,23 @@ var geokod = function (text, obj, egyeb) {
         new google.maps.LatLng(47.3515010, 18.9251690), 
         new google.maps.LatLng(47.6133620, 19.3339160)) 
   };
-  koder.geocode(params, function (c) {
-        $(obj).data("lat", c[0].geometry.location.b)
-              .data("lon", c[0].geometry.location.c);
-      });
-  if (egyeb) {
-    alert("bla");
+  if (a.address) {
+    params["address"] = a.address;
+  };
+  if (a.lat && a.lng) {
+    var latlng = new google.maps.LatLng(a.lat, a.lng);
+    params["latLng"] = latlng;
   }
+  console.log(params);
+  koder.geocode(params, function (result, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+    // csatold vissza lécci az adatot
+      $(a.obj)
+    }
+  }
+        //$(obj).data("lat", c[0].geometry.location.b)
+              //.data("lon", c[0].geometry.location.c);
+      //});
 };
 
 $(document).ready(function(){
@@ -176,12 +184,12 @@ $(document).ready(function(){
       $.mobile.changePage("#elsolepes", false, false, true);
     }
     // íme, astoria
-    var locations = [
-      {coords:
-        {latitude: 47.4943190,
-         longitude: 19.0599840}
-      }
-    ];
+    //var locations = [
+      //{coords:
+        //{latitude: 47.4943190,
+         //longitude: 19.0599840}
+      //}
+    //];
     //geo_position_js_simulator.init(locations);
     $('#from').blur(function () {
       if ($(this).value !== "") {
