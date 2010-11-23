@@ -98,7 +98,7 @@ var FillRoute = function () {
     $("#ut").append(resz);
   }
   $("#ut ul").listview();
-
+  $.mobile.changePage("#masodiklepes");
   //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lng")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
@@ -136,36 +136,6 @@ var tervezz = function (x1, y1, x2, y2) {
 };
 
 
-(function ( $ ) {
-  $.fn.geokod = function(reverz) {
-    var koder = new google.maps.Geocoder(),
-    params = {
-      "language": "hu",
-      "region": "hu",
-    };
-    if (reverz) {
-      params.address = $(this).val();
-      params.bounds = new google.maps.LatLngBounds(
-          // ezek biza Pest határai Szergej és Larry szerint
-          new google.maps.LatLng(47.3515010, 18.9251690), 
-          new google.maps.LatLng(47.6133620, 19.3339160)) 
-    }
-    if (!reverz) {
-      var latlng = new google.maps.LatLng(a.lat, a.lng);
-      params.latLng = latlng;
-    }
-    koder.geocode(params, function (result, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
-        $(this).data("lat", result[0].geometry.location.sa)
-        $(this).data("lng", result[0].geometry.location.ta);
-        if (reverz) {
-          this.val(result[0].formatted_address);
-        }
-      }
-    }
-  });
-  }  
-}) ( jQuery );
 
 var geokod = function (a) {
   var koder = new google.maps.Geocoder(),
@@ -224,6 +194,7 @@ $(document).ready(function(){
       tervezz.apply(this, koordinatak);
       $("#uticel").html($(this).html());
       $.mobile.pageLoading();
+      return false;
     })
     $("#huss").click(function() {
       if (idemegyek.val() !== "") {
