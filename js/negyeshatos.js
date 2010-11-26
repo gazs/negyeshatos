@@ -137,8 +137,9 @@ var tervezz = function (x1, y1, x2, y2) {
 
 
 
-var geokod = function (a) {
-  var koder = new google.maps.Geocoder(),
+var geokod = function (a, callback) {
+  var koder, params;
+  koder = new google.maps.Geocoder();
   params = {
     "language": "hu",
     "region": "hu",
@@ -157,11 +158,12 @@ var geokod = function (a) {
   if (a.selector) {
   koder.geocode(params, function (result, status) {
     if (status === google.maps.GeocoderStatus.OK) {
-      $(a.selector).data("lat", result[0].geometry.location.sa)
-      $(a.selector).data("lng", result[0].geometry.location.ta);
-      if (a.lat) {
-        $(a.selector).val(result[0].formatted_address);
-      }
+      callback(result[0]);
+      //$(a.selector).data("lat", result[0].geometry.location.sa)
+      //$(a.selector).data("lng", result[0].geometry.location.ta);
+      //if (a.lat) {
+        //$(a.selector).val(result[0].formatted_address);
+      //}
     }
   });
   }
@@ -182,7 +184,10 @@ $(document).ready(function(){
     //geo_position_js_simulator.init(locations);
     $('#from').blur(function () {
       if ($(this).value !== "") {
-        geokod({"address":$(this).val(), "obj":$(this)}); 
+        geokod({"address":$(this).val()}, function(a) {
+            $(this).data("lat", a.geometry.location.sa)
+                   .data("lng", a.geometry.location.ta);
+          }); 
       }
     })
     $("#to a").click(function(){
@@ -198,14 +203,19 @@ $(document).ready(function(){
     })
     $("#huss").click(function() {
       if (idemegyek.val() !== "") {
-       geokod({"address":idemegyek.val(), "selector": "#egyebto"});
+       geokod({"address":idemegyek.val()}, function(a) {
+                   
+         });
       }
     })
     if (geo_position_js.init()) {
       geo_position_js.getCurrentPosition(
         function (position) {
           //reverz(position.coords.latitude, position.coords.longitude);
-          geokod({"lat": position.coords.latitude, "lng": position.coords.longitude, "selector": "#from"});
+          geokod({"lat": position.coords.latitude, "lng": position.coords.longitude}, function(a) {
+            $("#from").data("lat", a.geometry.location.sa)
+                   .data("lng", a.geometry.location.ta);
+          });
         },
         function (error) {
         alert("nincs fix?");
