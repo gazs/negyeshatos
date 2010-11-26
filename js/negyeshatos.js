@@ -98,7 +98,7 @@ var FillRoute = function () {
     $("#ut").append(resz);
   }
   $("#ut ul").listview();
-
+  $.mobile.changePage("#masodiklepes", "slide", false, true);
   //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lon")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
@@ -197,6 +197,7 @@ $(document).ready(function(){
       tervezz.apply(this, koordinatak);
       $("#uticel").html($(this).html());
       $.mobile.pageLoading();
+      return false;
     })
     $("#huss").click(function() {
       var idemegyek = $("#egyebto");
