@@ -16,7 +16,7 @@
       <input id='from' type='text' name='from'></input>
     </div>
     <h2>Ide mennék:</h2>
-    <ul id='to' data-role='listview' data-inset='true'>
+    <ul id='to' data-role='listview' >
       {% for venyu in venyuz %}
         <li>
           <a data-lon='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
