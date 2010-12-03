@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <title>Menetrendadmin</title>
+<style type="text/css" media="screen">
+  body {
+    font-family:Arial, sans;
+    color:#111;
+    font-size:16px;
+    width:2000px;
+  }
+  label {
+    font-weight:bold;
+    color:#666;
+    display:block;
+    font-size:14px;
+    margin-top:5px;
+  }
+  input,textarea {
+    font-family:monospace;
+    padding:4px;
+    border: 1px solid #ccc;
+  }
+  .screenful {
+    padding-right:40px;
+    float:left 
+   }
+   .oszlop {
+     float:left;
+   }
+   #plusz {
+     background-color:#40a000;
+     text-align:center;
+     line-height:20px;
+     vertical-align:middle;
+     font-weight:bold;
+     color:white;
+     width:20px;
+     height:20px;
+     border-radius:10px;
+     text-shadow:1px 1px 1px #333;
+     -webkit-box-shadow:0px 0px 1px #666;
+     cursor:hand;
+   }
+</style>  
+<script type="text/javascript" charset="utf-8" src="../js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+      $("#plusz").click(function(){
+        $(this).parent().before( $(this).parent().prev().clone(false)  )
+      })
+  });
+</script>
+</head>
+<body>
+<div class="screenful">
+<label for="jarat">járat száma</label>
+<input type="text" name="jarat" value="" id="jarat">
+<label for="induloallomas">induláallomás</label>
+<input type="text" name="induloallomas" value="" id="induloallomas"> 
+<label for="vegallomas">végállomás</label>
+<input type="text" name="vegallomas" value="" id="vegallomas">
+<label for="percek">percek, megállók</label>
+<textarea name="percek" rows="20" cols="3"></textarea><textarea name="megallok" rows="20" cols="40"></textarea>
+</div>
+<div class="screenful">
+  <div class="oszlop">
+    <label for="ora" style="padding:5px 5px 4px 5px;">óra</label>
+    <textarea name="ora" rows="20" cols="2"></textarea>
+  </div>
+  <div class="oszlop">
+    <input type="text" name="some_name" value="1,2,3,4"><br>
+    <textarea name="ora" rows="20" cols="20"></textarea>
+  </div>
+  <div class="oszlop">
+    <div id="plusz">+</div>
+  </div>
+</div>
+<div style="display:block">
+<button>next!</button>
+</div>
+</body>
+</html>

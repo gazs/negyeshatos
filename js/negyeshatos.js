@@ -58,47 +58,46 @@ var FillRoute = function () {
       resz,
       seta,
       subs,
+      utvonal,
       d;
   $("#ut").empty();
   g_Route.m_arrMains[0].m_arrSubs.reverse();
+  utvonal = [];
   while (g_Route.m_arrMains[0].m_arrSubs.length > 0) {
     subs = g_Route.m_arrMains[0].m_arrSubs.pop();
     if (subs.m_arrBkvLines.length > 0) {
-      resz = $("<ul>").data('role', 'listview').data('inset', 'true');
+      //resz = $("<ul>").data('role', 'listview').data('inset', 'true');
+      resz = [];
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
         d = subs.m_arrBkvLines.pop();
-        var jarat_szama = d.m_strName,
-            css_osztaly = d.m_strClass,
-            jarat_tipusa = d.m_strVType.toLowerCase(),
-            jarat_menetrend_link = d.m_strLink,
-            felszallo_megallo = subs.m_strStopFrom,
-            utazott_megallok = d.m_iStops,
-            leszallo_megallo = subs.m_strStopTo,
-            utazas_hossza = subs.m_iTravelMinutes;
-        var utszakasz = $("<li>");
-        var jarat_link = $("<a>")
-          .attr("href", "/busz/mockup.html")
-          .addClass("bkvJarat")
-          .addClass(css_osztaly)
-          .html(jarat_szama)
-        utszakasz.append(jarat_link);
-        utszakasz.append(felszallo_megallo + " &rarr; ");
-        utszakasz.append(" " + leszallo_megallo + " ");
-        utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
-        resz.append(utszakasz);
         if (subs.m_arrBkvLines.length === 0) {
-          felszallsz = false;
+          resz.push({
+              jarat_szama: d.m_strName,
+              css_osztaly: d.m_strClass,
+              jarat_tipusa: d.m_strVType.toLowerCase(),
+              jarat_menetrend_link: d.m_strLink,
+              felszallo_megallo: subs.m_strStopFrom,
+              utazott_megallok: d.m_iStops,
+              leszallo_megallo: subs.m_strStopTo,
+              utazas_hossza: subs.m_iTravelMinutes
+              });
         }
+        //if (subs.m_arrBkvLines.length === 0) {
+          //felszallsz = false;
+        //}
       }
     } else {
       seta++;
     }
-    $("#utinfo").html(g_Route.m_iTravelMinutes + " perc menetidő")
-    $("#ut").append(resz);
+    //$("#utinfo").html(g_Route.m_iTravelMinutes + " perc menetidő")
+    //$("#ut").append(resz);
+    utvonal.push(resz);
   }
-  $("#ut ul").listview();
-  $.mobile.changePage("#masodiklepes");
+  //console.log(utvonal);
+  $("#utvonaltervtemplate").tmpl(utvonal).appendTo("#elsolepes > div");
+  //$("#ut ul").listview();
+  //$.mobile.changePage("#masodiklepes");
   //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lng")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
@@ -169,61 +168,3 @@ var geokod = function (a, callback) {
   }
 }
 
-$(document).ready(function(){
-    $.mobile.loadingMessage = "türelem tornaterem";
-    if (window.location.hash !== "") {
-      $.mobile.changePage("#elsolepes", false, false, true);
-    }
-    // íme, astoria
-    //var locations = [
-      //{coords:
-        //{latitude: 47.4943190,
-         //longitude: 19.0599840}
-      //}
-    //];
-    //geo_position_js_simulator.init(locations);
-    $('#from').blur(function () {
-      if ($(this).value !== "") {
-        geokod({"address":$(this).val()}, function(a) {
-            $(this).data("lat", a.geometry.location.sa)
-                   .data("lng", a.geometry.location.ta);
-          }); 
-      }
-    })
-    $("#to a").click(function(){
-      var koordinatak = [];
-      koordinatak.push($("#from").data("lng"));
-      koordinatak.push($("#from").data("lat"));
-      koordinatak.push($(this).data("lng"));
-      koordinatak.push($(this).data("lat")); 
-      tervezz.apply(this, koordinatak);
-      $("#uticel").html($(this).html());
-      $.mobile.pageLoading();
-      return false;
-    })
-    $("#huss").click(function() {
-      if (idemegyek.val() !== "") {
-       geokod({"address":idemegyek.val()}, function(a) {
-                   
-         });
-      }
-    })
-    if (geo_position_js.init()) {
-      geo_position_js.getCurrentPosition(
-        function (position) {
-          //reverz(position.coords.latitude, position.coords.longitude);
-          geokod({"lat": position.coords.latitude, "lng": position.coords.longitude}, function(a) {
-            $("#from").data("lat", a.geometry.location.sa)
-                   .data("lng", a.geometry.location.ta);
-          });
-        },
-        function (error) {
-        alert("nincs fix?");
-          $("#from").val("?");
-        });
-    }
-    else {
-     alert("nem jó a geojs?");
-      $("#from").val("?");
-    }
-})

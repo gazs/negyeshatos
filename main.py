@@ -40,7 +40,7 @@ class MainHandler(webapp.RequestHandler):
     if "4sqid" in self.request.cookies:
       venyuz = holvagytok(self.request.cookies['4sqid'])
       hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.html')
-      self.response.out.write(template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
+      self.response.out.write(open(hamlpath).read()) #template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
     else:
       self.redirect('/oauth')
 
@@ -89,7 +89,7 @@ def holvagytok(cookie):
       # ha létezik a venyuzban a venyu, akkor csak a dátumot és az ottlevőket frissítse
       # nemszép! pfuj! fixme!
       venyunevek = [x['name'] for x in venyuz]
-      checkintimetuple = datetime.fromtimestamp(time.mktime(parsedate(checkin['created'])))
+      checkintimetuple = datetime.fromtimestamp(time.mktime(parsedate(checkin['created']))).isoformat()
       if venue['name'] in venyunevek:
         ezittmost = venyuz[venyunevek.index(venue['name'])]
         #logging.error(ezittmost)
@@ -121,6 +121,7 @@ class VenueHandler(webapp.RequestHandler):
     def get(self):
         cookie = self.request.cookies['4sqid']
         venyuz = holvagytok(cookie)
+        #dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) 
         self.response.out.write(simplejson.dumps(venyuz))
 
 def main():

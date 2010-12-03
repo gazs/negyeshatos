@@ -1,65 +1,60 @@
-{% extends "base.html" %}
-{% block title %}
-  {{ title }}
-{% endblock %}
-
-{% block elsolepes %}
-<div data-role='page' id='elsolepes'>
-  <div data-role='header'>
-    <h1><img src="/img/36.png">Négyeshatos</h1>
-  </div>
-  <div data-role='content'>
-    <div data-role='fieldcontain'>
-      <label for='from'>
-        <h2>Itt vagyok:</h2>
-      </label>
-      <input id='from' type='text' name='from'></input>
-    </div>
-    <h2>Ide mennék:</h2>
-    <ul id='to' data-role='listview'>
-      {% for venyu in venyuz %}
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <title>
+      Négyeshatos r2
+    </title>
+    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src='/js/jquery-1.4.4.min.js'>/</script>
+    <script src='/js/jquery.mobile-1.0a2.min.js'>/</script>
+    <script src="/js/jquery.tmpl.js"></script>
+    <script src='/js/negyeshatos.js'></script>
+    <link href='/css/jquery.mobile-1.0a2.min.css' rel='stylesheet' />
+    <link href='/css/jqm.css' rel='stylesheet' />
+    <script src="/js/geo.js"></script>
+    <!--<script src="js/geo_position_js_simulator.js"></script>-->
+    <script type="text/javascript" charset="utf-8">
+      var astoria = [47.4943190, 19.0599840];
+      $(document).ready(function(){
+          // TODO navigator.onLine
+          // TODO $(applicationCache).bind("updateready", displayReload);
+          $.getJSON("/merrevagytok?", function(json){
+            // TODO localStorage-ből töltsön be, illetve erre frissítsen rá.
+            $("#elsolepes > div").html($("#listatemplate").tmpl({venyuz:json}));
+            $("#to").listview();
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <script id="listatemplate" type="text/x-jquery-tmpl">
+      <ul id="to" data-role="listview">
+        {{each venyuz }}
         <li>
-          <a data-lng='{{venyu.geolong}}' href='#masodiklepes' data-lat='{{venyu.geolat}}'>
-            {{ venyu.name }}
-          </a> <i>({{venyu.lastseen|date_diff}})</i>
-          <div class='ittvannak'>
-            {% for friend in venyu.here %}
-              <img class='avatar' src='{{friend.photo}}' />
-            {% endfor %}
+          <a data-lat="${geolat}" data-lng="${geolong}" href="#">${name}</a> <i>(${lastseen})</i>
+          <div class="ittvannak">
+            {{each here }}
+            <img src="${photo}" title="${firstname}" class="avatar">
+            {{/each}}
           </div>
         </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div data-role='footer'>
-    <a href='/jegyzetek/about.html'>about</a>
-  </div>
-</div>
-{% endblock %}
-{% block masodiklepes %}
-<div data-role='page' id='masodiklepes'>
-  <div data-role='header'>
-    <h1><img src="/img/36.png">Négyeshatos</h1>
-  </div>
-  <div data-role='content'>
-    <h2>Így jutsz el ide: <span id="uticel"></span></h2>
-    <div id="ut">
+        {{/each}}
+      </ul>
+    </script>
+    <script id="utvonaltervtemplate" type="text/x-jquery-tmpl">
+      {{each utvonalszakasz}}
+      <ul>
+        {{each lehetoseg}}
+        <li><a href="${jarat_menetrend_link}" class="bkvJarat ${css_osztaly}">${jarat_szama}</a>${felszallo_megallo} &rarr; ${leszallo_megallo} (${utazott_megallok} megálló, ${utazas_hossza} perc)</li>
+        <li>${felszall} &rarr; ${leszall}</li>
+        {{/each}}
+      </ul>
+      {{/each}}
+    </script>
+    <div data-role="page" id="elsolepes">
+      <div data-role="content">
+        <i>adatok betöltése, türelem tornaterem</i>
+      </div>
     </div>
-    <p id='utinfo'></p>
-  </div>
-</div>
-{% endblock %}
-
-{% block kereses %}
-<div data-role='page' id='kereses'>
-  <div data-role='header'>
-    <h1>Menjél messzebb</h1>
-  </div>
-  <div data-role='content'>
-    <div data-role="fieldcontain">
-      <label for="search">Nem Foursquare, hanem Google-geokódolás. Írd ide a pontos címet, a környéket, vagy akár csak a <b>buszmegállót</b> ahova el akarsz jutni </label>
-        <input type="text" id="egyebto" value="" />
-    </div><button type="submit" data-theme="a" id="huss">Huss</button>
-  </div>
-</div>
-{% endblock %}
+  </body>
+</html>

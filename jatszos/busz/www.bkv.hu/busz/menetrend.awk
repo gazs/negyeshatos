@@ -1,0 +1,3 @@
+/ÉRVÉNYES/ {
+  print $2
+}
