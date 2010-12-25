@@ -1,6 +1,3 @@
-h2 { min-width:300px }
-.ui-header h1.ui-title { margin:auto }
-h1 img { vertical-align:middle; margin-right:5px;}
 .logo { vertical-align:middle}
 
 input.ui-input-text#from {
@@ -26,10 +23,22 @@ li i {
   color:#666;
 }
 
-#ut .ui-li .ui-btn-text {
+#masodiklepes .ui-li .ui-btn-text {
   /* Az útvonal fontos, ne clippelje le a vég... */
   white-space:normal;
   padding-left:40px;
+}
+
+#masodiklepes .ui-li-thumb {
+  top:3px;
+  left:12px
+}
+#masodiklepes .ui-li-has-thumb {
+  padding-left:55px;
+}
+
+.ui-icon-negyeshatos-location {
+  background: url("/img/07-map-marker.png")
 }
 
 .bkvJarat {

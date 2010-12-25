@@ -1,78 +1,34 @@
-<html>
+<!DOCTYPE html>
+<html manifest="cache.manifest">
   <head>
-    <title>Négyeshatos: Foursquare + BKV = <3</title>
-</head>
-<body>
-<style>
-  body { font-family: Helvetica, Verdana, Arial, sans-serif;}
-  #kontent { width: 800px;margin:auto; }
-  h1, p {  }
-  h1 { font-size:36px; color:#16214d }
-  p { font-size:24px; color:#888;}
-  p a { text-decoration:none; color: #2398C9; font-weight:bold }
-  #footer {text-align:center; margin-top:100px; padding:5px; }
-  #footer, #footer a {color:#ccc; }
-  .twtr-doc { margin: auto }
-  .twtr-widget p { font-size:12px }
-</style>
-<div id="kontent">
-<img src="/img/2-nagy.png" style="padding:20px; float:left">
-<div style="padding:20px;">
-  <h1>Négyeshatos</h1>
-<p>Az eszköz tudja, <a href="http://dev.w3.org/geo/api/spec-source.html">hol vagy</a>; az eszköz tudja, <a href="http://foursquare.com">hol vannak a barátaid</a>; az eszköz tudja, <a href="http://bkv.hu">hogy járnak a buszok</a>; te tudod, hova akarsz menni. Egyszerűbb nem is lehetne. Questions?</p> 
-<p><a href="/oauth"><img src="/img/signinwith-foursquare.png"></a></p>
-</div>
-</div>
-
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'search',
-  search: '#4s-hatos',
-  interval: 6000,
-  title: 'The tram doesn\'t stop at Margitsziget',
-  subject: '',
-  width: 250,
-  height: 150,
-  theme: {
-    shell: {
-      background: '#8ec1da',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: '#ffffff',
-      color: '#444444',
-      links: '#1985b5',
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: false,
-    live: true,
-    hashtags: true,
-    timestamp: true,
-    avatars: true,
-    toptweets: true,
-    behavior: 'default'
-  }
-}).render().start();
-</script>
-<div id="footer">
-  Gazs @ <a href="http://bergengocia.net">Bergengocia.net</a>
-</div>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-19440499-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</body>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+     <!-- jqm -->
+     <link rel="stylesheet" href="jqm/jquery.mobile-1.0a2.css" />
+     <script src="jqm/jquery-1.4.4.min.js"></script>
+     <script src="jqm-custom.js"></script>
+     <script src="jqm/jquery.mobile-1.0a2.min.js"></script>
+    <title>about négyeshatos</title>
+    
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>Négyeshatos</h1>
+      </div>
+      <div data-role="content">
+        <img src="/img/negyeshatoslogo.png" style="margin: 0 auto">
+        <p>Készült 
+        <a href="http://code.google.com/appengine/">Google Appengine</a>,
+        <a href="https://github.com/wiseman/foursquare-python">foursquare-python</a>,
+        <a href="http://oauth.googlecode.com/svn/code/python/oauth/">oauth</a>,
+        <a href="http://djangosnippets.org/snippets/1409/">Smart i18n date diff (twitter like)</a>,
+        <a href="http://jquery.com/">jQuery</a>,
+        <a href="http://jquerymobile.com/">jQuery Mobile</a>,
+        <a href="https://github.com/jquery/jquery-tmpl">jquery templates</a>,
+        <a href="http://glyphish.com/">Glyphish</a>,
+        felhasználásával, nyomokban földimogyorót tartalmazhat.</p>
+        <p>kontakt: gazs@bergengocia.net</p>
+      </div>
+    </div> 
+  </body>
 </html>

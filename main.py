@@ -10,8 +10,8 @@ import os
 from google.appengine.ext import db
 
 from google.appengine.ext.webapp import template
-webapp.template.register_template_library('datediff')
-
+#webapp.template.register_template_library('datediff')
+from datediff import date_diff
 
 import foursquare
 import oauth
@@ -46,7 +46,7 @@ class MainHandler(webapp.RequestHandler):
 
 class AboutHandler(webapp.RequestHandler):
   def get(self):
-    aboutpage = os.path.join(os.path.dirname(__file__), 'html/about.html')
+    aboutpage = os.path.join(os.path.dirname(__file__), 'html/teaser.html')
     self.response.out.write(template.render(aboutpage, {}))
 
 class OauthProba(webapp.RequestHandler):
@@ -89,7 +89,7 @@ def holvagytok(cookie):
       # ha létezik a venyuzban a venyu, akkor csak a dátumot és az ottlevőket frissítse
       # nemszép! pfuj! fixme!
       venyunevek = [x['name'] for x in venyuz]
-      checkintimetuple = datetime.fromtimestamp(time.mktime(parsedate(checkin['created']))).isoformat()
+      checkintimetuple = date_diff(datetime.fromtimestamp(time.mktime(parsedate(checkin['created'])))).decode("utf-8")
       if venue['name'] in venyunevek:
         ezittmost = venyuz[venyunevek.index(venue['name'])]
         #logging.error(ezittmost)

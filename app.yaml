@@ -21,18 +21,17 @@ handlers:
   static_files: cache.manifest
   upload: cache.manifest
   mime_type: text/cache-manifest
-- url: /busz
-  static_dir: busz 
 - url: /favicon.ico
   static_files: css/favicon.ico
   upload: css/favicon.ico
-- url: /jegyzetek
-  static_dir: jegyzetek
 - url: /img
   static_dir: img
 - url: /css
   static_dir: css
 - url: /js
   static_dir: js
+- url: /about.html
+  static_files: html/about.html
+  upload: html/about.html
 - url: .*
   script: main.py

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
-from google.appengine.ext import webapp
+#from google.appengine.ext import webapp
 
-register = webapp.template.create_template_register()
+#register = webapp.template.create_template_register()
 def ungettext(singular, plural, number):
   return singular if number == 1 else plural
 
@@ -46,4 +46,4 @@ def date_diff(d):
     return _('%(number)d %(type)s') % \
         {'number': count, 'type': name(count)}
 
-register.filter(date_diff)
+#register.filter(date_diff)

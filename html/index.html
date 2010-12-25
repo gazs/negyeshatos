@@ -1,37 +1,125 @@
-<!DOCTYPE html>
-<html lang="hu">
-  <head>
-    <title>
-      Négyeshatos r2
-    </title>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script src='/js/jquery-1.4.4.min.js'>/</script>
-    <script src='/js/jquery.mobile-1.0a2.min.js'>/</script>
-    <script src="/js/jquery.tmpl.js"></script>
-    <script src='/js/negyeshatos.js'></script>
-    <link href='/css/jquery.mobile-1.0a2.min.css' rel='stylesheet' />
-    <link href='/css/jqm.css' rel='stylesheet' />
-    <script src="/js/geo.js"></script>
-    <!--<script src="js/geo_position_js_simulator.js"></script>-->
-    <script type="text/javascript" charset="utf-8">
-      var astoria = [47.4943190, 19.0599840];
-      $(document).ready(function(){
-          // TODO navigator.onLine
-          // TODO $(applicationCache).bind("updateready", displayReload);
-          $.getJSON("/merrevagytok?", function(json){
-            // TODO localStorage-ből töltsön be, illetve erre frissítsen rá.
-            $("#elsolepes > div").html($("#listatemplate").tmpl({venyuz:json}));
-            $("#to").listview();
-          });
-      });
-    </script>
-  </head>
-  <body>
-    <script id="listatemplate" type="text/x-jquery-tmpl">
+<!DOCTYPE HTML>
+<html lang="hu" manifest="cache.manifest">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Négyeshatos</title>
+
+    <link rel="apple-touch-icon" href="/img/negyeshatoslogo.png"/> 
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+
+
+  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+
+  <script src="/js/geo.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.tmpl.min.js"></script>
+
+  <link rel="stylesheet" href="/css/jquery.mobile-1.0a2.min.css" />
+  <link href='/css/jqm.min.css' rel='stylesheet' />
+
+  <script src="/js/jquery.mobile-1.0a2.min.js"></script>
+
+
+  <script src="/js/bkv.min.js"></script>
+  <script src="/js/geoloc.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    function renderFriends() {
+      $.mobile.pageLoading();
+      $("#elsolepes .content").html("");
+      $.getJSON("/merrevagytok?", function (json) {
+          $("#friendsTemplate").tmpl({venyuz:json}).appendTo($("#elsolepes .content")).listview();
+          $.mobile.pageLoading(true);
+      })
+    }
+    function renderRoute(to, place) {
+      $.mobile.pageLoading();
+      $("#masodiklepes .content").html("");
+      planRoute({
+        from: $("#mylocation").data("latlng"),
+        to: to,
+        maxwalkdistance: 110
+      },
+      function(gR) {
+        $("#masodiklepes h1").text(unescape(place));
+        $("#routeTemplate").tmpl({
+          route: gR.m_arrMains[0],
+          destination: to,
+          imgsize: parseInt($("#elsolepes .content").width() * 0.95, 10) + "x" + parseInt($("#elsolepes .content").width() * 0.60, 10) 
+          }).appendTo($("#masodiklepes .content"));
+        $("#masodiklepes ul").listview();
+        localStorage["utvonalterv"] = $("#masodiklepes").html();
+        // https://github.com/jquery/jquery-mobile/issuesearch?state=closed&q=changePage#issue/550
+        $.mobile.changePage("#masodiklepes", "slide", false, true);
+        $.mobile.pageLoading(true);
+      }, function(err) {
+        alert("szerintem oda nem jár a bkv már. sajnálom, nem tudok segíteni :(")
+        $.mobile.pageLoading(true);
+      })
+    }
+    function egyeb() {
+      var dest = prompt("Hova mész?");
+      if (dest) {
+      geokod({address:dest}, function(result) {
+          renderRoute([result.geometry.location.lat(), result.geometry.location.lng()], dest)
+      })
+     } 
+    }
+    $(document).ready(function(){
+        $(applicationCache).bind("updateready", function() {
+          location.reload()
+        })
+       
+       if (geo_position_js.init()) {
+         geo_position_js.getCurrentPosition(
+           function(p){geokod({lat:p.coords.latitude, lng:p.coords.longitude}, 
+             function(result){
+              $("#mylocation").text(result.formatted_address).buttonMarkup()
+                     .data("latlng", [result.geometry.location.lat(), result.geometry.location.lng()])
+             })},
+           function(e){
+             var mylocation = prompt("nem tudtam megállapítani, hol vagy. kérlek írd be kézzel")
+             $.mobile.pageLoading()
+             geokod({address:ujhely}, function(result) {
+              $("#mylocation").text(result.formatted_address).buttonMarkup()
+                     .data("latlng", [result.geometry.location.lat(), result.geometry.location.lng()])
+              $.mobile.pageLoading(true);
+            })
+
+           });
+       } 
+
+
+        $("#mylocation").tap(function(){
+          var ujhely = prompt('hol vagy?', $(this).text()),
+              that = this;
+          if (ujhely) {
+            $.mobile.pageLoading()
+            geokod({address:ujhely}, function(result) {
+              $(that).text(result.formatted_address).buttonMarkup()
+                     .data("latlng", [result.geometry.location.lat(), result.geometry.location.lng()])
+              $.mobile.pageLoading(true);
+            })
+          }
+        });
+        /* --------------------------------- */
+        $("#elsolepes .content").html( localStorage["friends"] || "lóding" )
+        renderFriends();
+
+        if (location.hash === "#masodiklepes" && localStorage["utvonalterv"]) {
+          $("#masodiklepes").html(localStorage["utvonalterv"]);
+        } else {
+          $.mobile.changePage("#elsolepes", "slide", true, true);
+        }
+
+    })
+  </script>
+    <script id="friendsTemplate" type="text/x-jquery-tmpl">
       <ul id="to" data-role="listview">
+        <li data-role="list-divider">Barátaim a Foursquare-en</li>
         {{each venyuz }}
         <li>
-          <a data-lat="${geolat}" data-lng="${geolong}" href="#">${name}</a> <i>(${lastseen})</i>
+        <a data-lat="${geolat}" data-lng="${geolong}" href="javascript:renderRoute([${geolat}, ${geolong}], '${escape(escape(name))}')">${name}</a> <i>(${lastseen})</i>
           <div class="ittvannak">
             {{each here }}
             <img src="${photo}" title="${firstname}" class="avatar">
@@ -39,22 +127,56 @@
           </div>
         </li>
         {{/each}}
+        <li data-role="list-divider">Más uticél</li>
+        <li><a href="javascript:egyeb()" id="egyeb">Nincs rajta a listán, beírom...<p></p></a></li>
       </ul>
     </script>
-    <script id="utvonaltervtemplate" type="text/x-jquery-tmpl">
-      {{each utvonalszakasz}}
-      <ul>
-        {{each lehetoseg}}
-        <li><a href="${jarat_menetrend_link}" class="bkvJarat ${css_osztaly}">${jarat_szama}</a>${felszallo_megallo} &rarr; ${leszallo_megallo} (${utazott_megallok} megálló, ${utazas_hossza} perc)</li>
-        <li>${felszall} &rarr; ${leszall}</li>
-        {{/each}}
-      </ul>
-      {{/each}}
-    </script>
-    <div data-role="page" id="elsolepes">
-      <div data-role="content">
-        <i>adatok betöltése, türelem tornaterem</i>
-      </div>
+
+  <script type="text/xjquery-tmpl" id="routeTemplate">
+    {{each route.m_arrSubs}}
+      {{if m_arrBkvLines.length}}
+        <ul data-role="listview" data-inset="true">
+          {{each m_arrBkvLines}}
+            <li>
+            <a href="${m_strLink}" class="bkvJarat ${m_strClass}">${m_strName}</a>
+              ${m_strStopFrom} &rarr; ${m_strStopTo} <i>(${m_iStops} megálló, ${m_iTravelMinutes} perc)</i>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        {{if m_iLength > 20 && m_strName}}
+        <ul data-role="listview" data-inset="true">
+          <li><img src="/img/63-runner.png"> ${m_strName} <i>(${m_iLength} m)</i></li>
+        </ul>
+        {{/if}}
+      {{/if}}
+    {{/each}}
+    <p>Összesen ${route.m_iLength / 1000 } km, ${route.m_iTravelMinutes} perc</p>
+    <a href="http://maps.google.com/maps?ll=${destination[0]},${destination[1]}"><img style="margin:0 auto" src="http://maps.google.com/maps/api/staticmap?size=${imgsize}&sensor=false&zoom=15&center=${destination[0]},${destination[1]}&markers=color:red|${destination[0]},${destination[1]}"></a>
+  </script>
+</head>
+<body>
+
+  <div data-role="page" id="elsolepes" >
+    <div data-role="header" data-position="inline">
+      <h1>Négyeshatos<h1>
+      <a href="javascript:renderFriends()" data-icon="refresh" class="ui-btn-right" data-iconpos="notext" data-theme="d">Frissítsd</a>
     </div>
-  </body>
+    <div data-role="header" data-theme="d"><h2 style="margin-left:0; margin-right:0"><a href="#" id="mylocation" data-icon="negyeshatos-location">1055 Budapest, Astoria, Magyarország</a></h2></div>
+    <div data-role="content" class="content">
+    </div>
+    <div data-role="footer">
+      <a href="/about.html">about</a>
+    </div>
+  </div>
+
+  <div data-role="page" id="masodiklepes">
+    <div data-role="header" data-nobackbtn="true">
+      <!-- back-gomb workaround: ha közvetlenül aloldalra érkezel, a back-gomb a címlapra vigyen, visszafele evezve -->
+      <a href="javascript:$.mobile.changePage('#elsolepes', 'slide', true, true)" data-icon="arrow-l">Vissza</a>
+      <h1>útvonal</h1></div>
+    <div data-role="content" class="content">
+    </div>
+  </div>
+</body>
 </html>
