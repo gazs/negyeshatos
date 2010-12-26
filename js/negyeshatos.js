@@ -70,6 +70,25 @@ var FillRoute = function () {
       while (subs.m_arrBkvLines.length > 0) {
         // mindahány járat ugyanonnan ugyanaddig megy, ugye?
         d = subs.m_arrBkvLines.pop();
+        var jarat_szama = d.m_strName,
+            css_osztaly = d.m_strClass,
+            jarat_tipusa = d.m_strVType.toLowerCase(),
+            jarat_menetrend_link = d.m_strLink,
+            felszallo_megallo = subs.m_strStopFrom,
+            utazott_megallok = d.m_iStops,
+            leszallo_megallo = subs.m_strStopTo,
+            utazas_hossza = subs.m_iTravelMinutes;
+        var utszakasz = $("<li>");
+        var jarat_link = $("<a>")
+          .attr("href", jarat_menetrend_link) 
+          .addClass("bkvJarat")
+          .addClass(css_osztaly)
+          .html(jarat_szama)
+        utszakasz.append(jarat_link);
+        utszakasz.append(felszallo_megallo + " &rarr; ");
+        utszakasz.append(" " + leszallo_megallo + " ");
+        utszakasz.append("<i>(" + utazott_megallok + " megálló, " + utazas_hossza + " perc)</i>");
+        resz.append(utszakasz);
         if (subs.m_arrBkvLines.length === 0) {
           resz.push({
               jarat_szama: d.m_strName,
