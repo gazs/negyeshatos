@@ -93,11 +93,9 @@ var FillRoute = function () {
     //$("#ut").append(resz);
     utvonal.push(resz);
   }
-  //console.log(utvonal);
-  $("#utvonaltervtemplate").tmpl(utvonal).appendTo("#elsolepes > div");
-  //$("#ut ul").listview();
-  //$.mobile.changePage("#masodiklepes");
-  //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lng")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
+  $("#ut ul").listview();
+  $.mobile.changePage("#masodiklepes", "slide", false, true);
+  //$("<img>").attr("src", "http://maps.google.com/maps/api/staticmap?size=320x320&center=" + $('#uticel').data("lat") + ","+$('#uticel').data("lon")  + "&zoom=15&markers=color:blue|47.5076428,19.0881152&sensor=false").appendTo("#ut");
 };
 
 var tervezz = function (x1, y1, x2, y2) {
@@ -149,19 +147,56 @@ var geokod = function (a, callback) {
         new google.maps.LatLng(47.3515010, 18.9251690), 
         new google.maps.LatLng(47.6133620, 19.3339160)) 
   }
-  if (a.lat && a.lng) {
-    var latlng = new google.maps.LatLng(a.lat, a.lng);
-    params.latLng = latlng;
-  }
-  if (a.selector) {
-  koder.geocode(params, function (result, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      callback(result[0]);
-      //$(a.selector).data("lat", result[0].geometry.location.sa)
-      //$(a.selector).data("lng", result[0].geometry.location.ta);
-      //if (a.lat) {
-        //$(a.selector).val(result[0].formatted_address);
-      //}
+};
+
+$(document).ready(function(){
+    $.mobile.loadingMessage = "türelem tornaterem";
+    if (window.location.hash !== "") {
+      $.mobile.changePage("#elsolepes", false, false, true);
+    }
+    // íme, astoria
+    var locations = [
+      {coords:
+        {latitude: 47.4943190,
+         longitude: 19.0599840}
+      }
+    ];
+    //geo_position_js_simulator.init(locations);
+    $('#from').blur(function () {
+      if ($(this).value !== "") {
+        geokod($(this).val(), $(this)); 
+      }
+    })
+    $("#to a").click(function(){
+      var koordinatak = [];
+      koordinatak.push($("#from").data("lon"));
+      koordinatak.push($("#from").data("lat"));
+      koordinatak.push($(this).data("lon"));
+      koordinatak.push($(this).data("lat")); 
+      tervezz.apply(this, koordinatak);
+      $("#uticel").html($(this).html());
+      $.mobile.pageLoading();
+      return false;
+    })
+    $("#huss").click(function() {
+      var idemegyek = $("#egyebto");
+      if (idemegyek.val() !== "") {
+       geokod(idemegyek.val(), idemegyek);
+      }
+    })
+    if (geo_position_js.init()) {
+      geo_position_js.getCurrentPosition(
+        function (position) {
+          reverz(position.coords.latitude, position.coords.longitude);
+        },
+        function (error) {
+        console.log("nincs fix?");
+          $("#from").val("?");
+        });
+    }
+    else {
+      console.log("nem jó a geojs?");
+      $("#from").val("?");
     }
   });
   }
