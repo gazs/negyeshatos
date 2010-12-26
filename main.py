@@ -127,7 +127,7 @@ class VenueHandler(webapp.RequestHandler):
 def main():
     #logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([('/merrevagytok?', VenueHandler),
-                                          ('/kikvagytok', KikVagytok),
+                                          #('/kikvagytok', KikVagytok),
                                           ('/oauth', OauthProba),
                                           ('/app', MainHandler),
                                           ('/', AboutHandler)
