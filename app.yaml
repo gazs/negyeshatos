@@ -17,6 +17,9 @@ skip_files:
 - ^(.*/)?.*\.bak$
 - ^(.*/)?.*\.pdf
 handlers:
+- url: /appeal.html
+  static_files: html/appeal.html
+  upload: html/appeal.html
 - url: /cache.manifest
   static_files: cache.manifest
   upload: cache.manifest

@@ -1,11 +1,11 @@
 CACHE MANIFEST
-#rev5
+#rev5-e
 js/geo.min.js
 js/jquery-1.4.4.min.js
 js/jquery.mobile-1.0a2.min.js
 js/bkv.min.js
 js/geoloc.min.js
-css/jquery.mobile.-1.0a2.min.css
+css/jquery.mobile-1.0a2.min.css
 css/jqm.min.css
 css/images/ajax-loader.png
 css/images/icons-18-white.png
