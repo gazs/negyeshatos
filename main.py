@@ -37,17 +37,20 @@ class CookieToken(db.Model):
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
-    if "4sqid" in self.request.cookies:
-      venyuz = holvagytok(self.request.cookies['4sqid'])
-      hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.html')
-      self.response.out.write(open(hamlpath).read()) #template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
-    else:
-      self.redirect('/oauth')
+    #if "4sqid" in self.request.cookies:
+    #venyuz = holvagytok(self.request.cookies['4sqid'])
+    hamlpath = os.path.join(os.path.dirname(__file__), 'html/index.html')
+    self.response.out.write(open(hamlpath).read()) #template.render(hamlpath, {'title': 'Négyeshatos', 'venyuz': venyuz}, debug=False))
+    #else:
+      #self.redirect('/oauth')
 
 class AboutHandler(webapp.RequestHandler):
   def get(self):
-    aboutpage = os.path.join(os.path.dirname(__file__), 'html/teaser.html')
-    self.response.out.write(template.render(aboutpage, {}))
+    if "Mobile" in self.request.headers['User-Agent']:
+      self.redirect('/app')
+    else:
+      aboutpage = os.path.join(os.path.dirname(__file__), 'html/teaser.html')
+      self.response.out.write(template.render(aboutpage, {}))
 
 class OauthProba(webapp.RequestHandler):
   def get(self):

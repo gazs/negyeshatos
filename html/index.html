@@ -103,19 +103,29 @@
           }
         });
         /* --------------------------------- */
-        $("#elsolepes .content").html( localStorage["friends"] || "lóding" )
-        renderFriends();
-
         if (location.hash === "#masodiklepes" && localStorage["utvonalterv"]) {
           $("#masodiklepes").html(localStorage["utvonalterv"]);
         } else {
           $.mobile.changePage("#elsolepes", "slide", true, true);
         }
 
+        if (document.cookie.match("4sqid")) {
+          $("#elsolepes .content").html( localStorage["friends"] || "lóding" );
+          renderFriends();
+        } else {
+          $("#friendsTemplate").tmpl({venyuz:[]}).appendTo("#elsolepes .content");
+          $("#elsolepes .content ul").listview();
+        }
     })
   </script>
-    <script id="friendsTemplate" type="text/x-jquery-tmpl">
+    <script id="friendsTemplate" type="text/x-jquery-tmpl"> 
+      {{if venyuz.length === 0}}
+      <div style="margin-bottom:50px;">
+        <p><b>Jelentkezz be Foursquare-rel, hogy lásd, merre járnak a többiek: </b></p><a href='http://4s-hatos.appspot.com/oauth' rel='external'><img src='http://4s-hatos.appspot.com/img/signinwith-foursquare.png'></a>    
+      </div>
+      {{/if}}
       <ul id="to" data-role="listview">
+        {{if venyuz.length}}
         <li data-role="list-divider">Barátaim a Foursquare-en</li>
         {{each venyuz }}
         <li>
@@ -127,8 +137,9 @@
           </div>
         </li>
         {{/each}}
+        {{/if}}
         <li data-role="list-divider">Más uticél</li>
-        <li><a href="javascript:egyeb()" id="egyeb">Nincs rajta a listán, beírom...<p></p></a></li>
+        <li><a href="javascript:egyeb()" id="egyeb">Máshova mennék, beírom...<p></p></a></li>
       </ul>
     </script>
 
@@ -190,7 +201,7 @@
       <a href="/about.html">about</a>
     </div>
   </div>
-
+  <!-- -->
   <div data-role="page" id="masodiklepes">
     <div data-role="header" data-nobackbtn="true">
       <!-- back-gomb workaround: ha közvetlenül aloldalra érkezel, a back-gomb a címlapra vigyen, visszafele evezve -->
