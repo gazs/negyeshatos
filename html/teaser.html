@@ -2,8 +2,7 @@
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Négyeshatos: Foursquare + BKV = &lt;3</title>
-</head>
-<body>
+    <script src="js/jquery-1.4.4.min.js"></script>
 <style>
   body { font-family: Helvetica, Verdana, Arial, sans-serif;}
   #kontent { width: 800px;margin:auto; }
@@ -30,6 +29,16 @@
   }
 
 </style>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("#bla").click(function(){
+      event.preventDefault();
+      window.open("/app", "Négyeshatos", "width=320,height=480,resizable=no");
+    })
+  })
+</script>
+</head>
+<body>
 
 <div id="kontent">
 <div class="jimmywales"> 
@@ -39,7 +48,7 @@
 <div style="padding:20px;">
   <h1>Négyeshatos</h1>
 <p>Az eszköz tudja, <a href="http://dev.w3.org/geo/api/spec-source.html">hol vagy</a>; az eszköz tudja, <a href="http://foursquare.com">hol vannak a barátaid</a>; az eszköz tudja, <a href="http://bkv.hu">hogy járnak a buszok</a>; te tudod, hova akarsz menni. Egyszerűbb nem is lehetne. Questions?</p> 
-<p><a href="/app">Próbáld ki most, akár a böngésződből is!</a></p>
+<p><a href="/app" id="bla">Próbáld ki most, akár a böngésződből is!</a></p>
 </div>
 </div>
 
